@@ -1,0 +1,36 @@
+<h1>Users Grid</h1>
+
+<table id="users_grid_id" class="display">
+	<thead>
+		<tr>
+			<th>Full Name</th>
+			<th> Email Address</th>
+			<th>Phone Number</th>
+			<th>Role</th>
+			<th>Action</th>
+		</tr>
+	</thead>
+
+	<tbody>
+		<% @userRoles.each do |userRole| %>
+			<tr>
+				<td> <%= userRole.user ? userRole.user.last_name + ',' + userRole.user.first_name : '' %> </td>
+				<td> <%= userRole.user ? userRole.user.email_address : '' %> </td>
+				<td> <%= userRole.user ? userRole.user.mobile_number : '' %> </td> 
+
+				<td> Role </td>
+				<td> link action</td>
+			</tr>
+
+		<% end %>
+	</tbody>
+</table>
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('#users_grid_id').dataTable({
+			sPaginationType: "full_numbers",
+			bJQueryUI: true
+		})
+	})
+</script>

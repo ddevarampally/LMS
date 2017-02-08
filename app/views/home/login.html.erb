@@ -1,0 +1,16 @@
+<br>
+<h2 style="text-align: center;font-family: sans-serif;">Login</h2>
+<br>
+
+<%= form_for @user, url: home_validate_login_path, html: { :class => "text-center" } do |f| %>
+	
+	<%= f.text_field :email_address, required: true, placeholder: "Email", style: "width: 15%;height: 20px;" %>
+	<br><br>
+
+	<%= f.password_field :password, required: true, placeholder: "Password", style: "width: 15%;height: 20px;" %>
+	<br><br><br>
+
+	<%= f.submit "Login", style: "width: 5%;height: 25px;"%> &nbsp;&nbsp;	
+	<%= link_to "Forgot Password", home_forgot_password_path, style: "font-family: sans-serif;" %> <br><br>		
+	
+<% end %>
