@@ -110,8 +110,12 @@
 }
 
 .datatable-format {
-    margin-top: -190px;
-    width: 80%;
-    margin-left: 10%;
+    width: 90%;
+    margin-left: 5%;
+    font-family: sans-serif;
+}
+
+.page-heading {
+    text-align: center;
     font-family: sans-serif;
 }

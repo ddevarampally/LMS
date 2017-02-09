@@ -1,6 +1,6 @@
-<h1>Users Grid</h1>
+<h2 class="page-heading">Users</h2>
 
-<table id="users_grid_id" class="display">
+<table id="users_grid" class="display">
 	<thead>
 		<tr>
 			<th>Full Name</th>
@@ -27,10 +27,15 @@
 </table>
 
 <script type="text/javascript">
-	$(document).ready(function(){
-		$('#users_grid_id').dataTable({
-			sPaginationType: "full_numbers",
-			bJQueryUI: true
-		})
-	})
+
+	$(document).ready(function() {  
+  	if(!$( "#users_grid" ).hasClass("dataTable")) {
+  		$('#users_grid').dataTable({
+		  	sPaginationType: "full_numbers",
+		  	bJQueryUI: true
+		})		
+	  	$('#users_grid_wrapper').addClass('datatable-format')
+	  }	
+   })
+	
 </script>

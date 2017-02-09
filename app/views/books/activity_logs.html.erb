@@ -1,4 +1,4 @@
-<h2 style="text-align: center;font-family: sans-serif;">Activity Logs</h2>
+<h2 class="page-heading">Activity Logs</h2>
 <table id="activity_logs_grid" class="display">
 	<thead>
 		<tr>
@@ -21,12 +21,13 @@
 <script type="text/javascript">
 
   $(document).ready(function() {  
-	  $('#activity_logs_grid').dataTable({
-	  	sPaginationType: "full_numbers",
-	  	bJQueryUI: true
-	  })
-
-	  //$('#activity_logs_grid_wrapper').addClass('datatable-format')
+  	if(!$( "#activity_logs_grid" ).hasClass("dataTable")) {
+  		$('#activity_logs_grid').dataTable({
+		  	sPaginationType: "full_numbers",
+		  	bJQueryUI: true
+		})		
+	  	$('#activity_logs_grid_wrapper').addClass('datatable-format')
+	  }	
    })
 
 </script>

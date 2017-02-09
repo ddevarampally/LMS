@@ -27,6 +27,4 @@ test:
 
 production:
   <<: *default
-  database: LMS
-  username: postgres
-  password: sql@123
+  url: <%= ENV['database_URL'] %>
