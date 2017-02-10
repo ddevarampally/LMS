@@ -12,14 +12,14 @@
 	</thead>
 
 	<tbody>
-		<% @userRoles.each do |userRole| %>
+		<% @user_roles.each do |user_role| %>
 			<tr>
-				<td> <%= userRole.user ? userRole.user.last_name + ',' + userRole.user.first_name : '' %> </td>
-				<td> <%= userRole.user ? userRole.user.email_address : '' %> </td>
-				<td> <%= userRole.user ? userRole.user.mobile_number : '' %> </td> 
+				<td> <%= user_role.user ? "#{user_role.user.last_name} , #{user_role.user.first_name}" : '' %> </td>
+				<td> <%= user_role.user ? user_role.user.email_address : '' %> </td>
+				<td> <%= user_role.user ? user_role.user.mobile_number : '' %> </td> 
 
 				<td> Role </td>
-				<td> link action</td>
+				<td> <%=link_to 'Edit', users_edit_path, {:class => "font-family"} %> | <%=link_to 'Delete', users_delete_path, {:class => "font-family"} %> </td>
 			</tr>
 
 		<% end %>

@@ -25,7 +25,7 @@
     <% if !session[:current_user_id].nil? %>
       <div class="text-center" style="padding: 0.5%;">
           <ul class="ul_class">
-            <li class="li_class pull"> <%= link_to "Home",home_index_path, {:class=>"button-link font-family"} %> </li>
+            <li class="li_class"> <%= link_to "Home",home_index_path, {:class=>"button-link font-family"} %> </li>
             <li class="li_class"> <%= link_to "Book Management",books_index_path, {:class=>"button-link font-family"} %> </li>
             <li class="li_class"> <%= link_to "Borrow / Return Book",home_index_path, {:class=>"button-link font-family"} %> </li>
             <li class="li_class"> <%= link_to "Users",users_index_path, {:class=>"button-link font-family"} %> </li>
