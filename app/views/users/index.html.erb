@@ -1,5 +1,7 @@
 <h2 class="page-heading">Users</h2>
-
+<div class="span3 pull-right text-center" style="margin-bottom:10px; margin-right:2.7%;">
+	<%= link_to "Add User", users_new_path , {:class=>"button-link font-family"} %>
+</div>
 <table id="users_grid" class="display">
 	<thead>
 		<tr>
@@ -18,7 +20,7 @@
 				<td> <%= user_role.user ? user_role.user.email_address : '' %> </td>
 				<td> <%= user_role.user ? user_role.user.mobile_number : '' %> </td> 
 
-				<td> Role </td>
+				<td> <%= @roles[user_role.role_id] %> </td>
 				<td> <%=link_to 'Edit', users_edit_path, {:class => "font-family"} %> | <%=link_to 'Delete', users_delete_path, {:class => "font-family"} %> </td>
 			</tr>
 

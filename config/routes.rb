@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   get 'users/index'
   get 'users/edit'
   get 'users/delete'
+  get 'users/new'
 
   get 'books/index'
   get 'books/activity_logs'
