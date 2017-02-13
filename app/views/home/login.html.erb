@@ -2,15 +2,15 @@
 <h2 class="page-heading">Login</h2>
 <br>
 
-<%= form_for @user, url: home_validate_login_path, html: { :class => "text-center" } do |f| %>
+<%= form_for(@user, url: home_validate_login_path, html: { :class => "text-center" }) do |f| %>
 	
-	<%= f.text_field :email_address, required: true, placeholder: "Email", style: "width: 15%;height: 20px;" %>
+	<%= f.text_field :email_address, required: true, placeholder: "Email", :class => "textbox-format", autofocus: true %>
 	<br><br>
 
-	<%= f.password_field :password, required: true, placeholder: "Password", style: "width: 15%;height: 20px;" %>
+	<%= f.password_field :password, required: true, placeholder: "Password", :class => "textbox-format" %>
 	<br><br><br>
 
-	<%= f.submit "Login", style: "width: 5%;height: 25px;"%> &nbsp;&nbsp;	
-	<%= link_to "Forgot Password", home_forgot_password_path, style: "font-family: sans-serif;" %> <br><br>		
+	<%= f.submit "Login", :class => "button-format" %> &nbsp;&nbsp;	
+	<%= link_to "Forgot Password", home_forgot_password_path, :class => "font-family" %>	
 	
 <% end %>
