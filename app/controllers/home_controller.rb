@@ -31,7 +31,11 @@ class HomeController < ApplicationController
   end
 
   def forgot_password
+    @email_address = params[:email_address]
 
+    respond_to do |format|
+        format.json { render json: @email_address.to_json }
+    end
   end
 
   def change_password

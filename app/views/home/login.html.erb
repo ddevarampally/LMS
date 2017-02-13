@@ -4,13 +4,28 @@
 
 <%= form_for(@user, url: home_validate_login_path, html: { :class => "text-center" }) do |f| %>
 	
-	<%= f.text_field :email_address, required: true, placeholder: "Email", :class => "textbox-format", autofocus: true %>
+	<%= f.text_field :email_address, required: true, placeholder: "Email", autofocus: true %>
 	<br><br>
 
-	<%= f.password_field :password, required: true, placeholder: "Password", :class => "textbox-format" %>
+	<%= f.password_field :password, required: true, placeholder: "Password" %>
 	<br><br><br>
 
-	<%= f.submit "Login", :class => "button-format" %> &nbsp;&nbsp;	
-	<%= link_to "Forgot Password", home_forgot_password_path, :class => "font-family" %>	
+	<%= f.submit "Login", :class => "btn btn-primary" %> &nbsp;&nbsp;	
+	<%= link_to "Forgot Password", '#', :id=> "forgot_password_link", :class => "font-family", "data-toggle" => "modal" %>	
 	
 <% end %>
+
+<%= render partial: "forgot_password" %>
+
+<script type="text/javascript">
+	
+$(document).ready(function() {	
+	$('#forgot_password_link').click(function() {
+		$('#forgot_password_form_message').empty();
+		$('#email_address').val('').focus();
+
+		$('#forgot_password_modal').modal('show');
+	})
+})
+
+</script>

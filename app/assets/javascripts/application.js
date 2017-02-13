@@ -16,3 +16,4 @@
 //= require turbolinks
 //= require jquery-ui
 //= require dataTables/jquery.dataTables
+//= require bootstrap
