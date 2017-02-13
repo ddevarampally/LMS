@@ -13,7 +13,7 @@ development:
   <<: *default
   database: LMS
   username: postgres
-  password: sql@123
+  password: madhu@123
 
 
 # Warning: The database defined as "test" will be erased and
@@ -23,7 +23,7 @@ test:
   <<: *default
   database: LMS
   username: postgres
-  password: sql@123
+  password: madhu@123
 
 production:
   <<: *default

@@ -5,21 +5,25 @@
         <div style="font-size: xx-large;margin-top: -65px; color: white;" class="text-center font-family">Library Management System </div>
             
         <% if !session[:current_user_id].nil? %>
-          <div class="pull-right" style="margin-top: -25px;">
-               <%= link_to "Log Out", home_logout_path,{:class => 'span1 pull-right font-family',:style => "color: white;margin-right:20px;"} %> 
-               <%= link_to "Change Password", home_change_password_path,{:class => 'span2 pull-right font-family',:style => "color: white;margin-right:20px;"} %>
-          </div>
+          <% if !session[:current_is_new_user] %>
+            <div class="pull-right" style="margin-top: -25px;">
+                 <%= link_to "Log Out", home_logout_path,{:class => 'span1 pull-right font-family',:style => "color: white;margin-right:20px;"} %> 
+                 <%= link_to "Change Password", home_change_password_path,{:class => 'span2 pull-right font-family',:style => "color: white;margin-right:20px;"} %>
+            </div>
+          <% end %>
         <% end %>
     </div>
     <br>
     <% if !session[:current_user_id].nil? %>
-      <div class="text-center" style="padding: 0.5%;">
-          <ul class="ul_class">
-            <li class="li_class"> <%= link_to "Home",home_index_path, {:class=>"button-link font-family"} %> </li>
-            <li class="li_class"> <%= link_to "Book Management",books_index_path, {:class=>"button-link font-family"} %> </li>
-            <li class="li_class"> <%= link_to "Borrow / Return Book",home_index_path, {:class=>"button-link font-family"} %> </li>
-            <li class="li_class"> <%= link_to "Users",users_index_path, {:class=>"button-link font-family"} %> </li>
-            <li class="li_class"> <%= link_to "Activity Logs",books_activity_logs_path, {:class=>"button-link font-family"} %> </li>
-          </ul>
-      </div>
+      <% if !session[:current_is_new_user] %>
+        <div class="text-center" style="padding: 0.5%;">
+            <ul class="ul_class">
+              <li class="li_class"> <%= link_to "Home",home_index_path, {:class=>"button-link font-family"} %> </li>
+              <li class="li_class"> <%= link_to "Book Management",books_index_path, {:class=>"button-link font-family"} %> </li>
+              <li class="li_class"> <%= link_to "Borrow / Return Book",home_index_path, {:class=>"button-link font-family"} %> </li>
+              <li class="li_class"> <%= link_to "Users",users_index_path, {:class=>"button-link font-family"} %> </li>
+              <li class="li_class"> <%= link_to "Activity Logs",books_activity_logs_path, {:class=>"button-link font-family"} %> </li>
+            </ul>
+        </div>
+      <% end %>    
     <% end %>    
