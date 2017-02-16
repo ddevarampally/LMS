@@ -1,6 +1,6 @@
 <h2 class="page-heading">Users</h2>
 <div class="span3 pull-right text-center" style="margin-bottom:10px; margin-right:2.7%;">
-	<%= link_to "Add User", users_new_path , {:class=>"button-link font-family"} %>
+	<button id="add-new-user" class="btn btn-primary font-family" style="width: 120px; color:white;" >Add User</button>
 </div>
 <table id="users_grid" class="display">
 	<thead>
@@ -28,16 +28,5 @@
 	</tbody>
 </table>
 
-<script type="text/javascript">
+<%= render 'Add_New_User'%>
 
-	$(document).ready(function() {  
-  	if(!$( "#users_grid" ).hasClass("dataTable")) {
-  		$('#users_grid').dataTable({
-		  	sPaginationType: "full_numbers",
-		  	bJQueryUI: true
-		})		
-	  	$('#users_grid_wrapper').addClass('datatable-format')
-	  }	
-   })
-	
-</script>

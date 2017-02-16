@@ -1,0 +1,4 @@
+ADMIN_ROLE = "Admin"
+LIBRARIAN_ROLE = "Librarian"
+USER_ROLE = "User"
+DECRYPT_PASSWORD ="(@ps@123"
