@@ -6,17 +6,30 @@ class UsersController < ApplicationController
   include Generate_encrypt_password
 
   def index
-  		@user_roles = UserRole.includes(:user,:role).where(users: {is_active: true})
+  		@user_roles = User.where(is_active: true)
 
-  		@roles = {}
+  		if @user_roles.any?
 
-  		@user_roles.each do |user|
-  			if @roles.key? (user.user_role_id) 
-  				@roles[user.user_role_id] = "#{@roles[user.user_role_id]} | #{user.role.role_name}"
-  			else
-  				 @roles[user.user_role_id] = user.role.role_name
-  			end
-  		end
+        @roles = {}
+        @user_ids = @user_roles.pluck('user_id')
+
+        if @user_ids.any? 
+          
+          @roles_types = UserRole.includes(:role).where(user_id: @user_ids).pluck('user_id,roles.role_name')
+
+          @roles_types.each do |role|
+           
+             id = role[0] 
+             if @roles.key? (id) 
+                @roles[id] = "#{@roles[id]} | #{role[1]}"
+                   
+              else
+                @roles[id] = role[1]
+
+              end
+          end  
+        end
+      end
   end
   
   def edit
@@ -24,10 +37,11 @@ class UsersController < ApplicationController
   end
 
   def delete
-  
+    
   end
 
   def add
+
       has_admin_role = params[:has_admin_role]
       has_librarian_role = params[:has_librarian_role]
       has_user_role = params[:has_user_role]
@@ -52,16 +66,15 @@ class UsersController < ApplicationController
             @roles = Role.all
             user_roles = []
            
-            if has_admin_role
-             role = 
+            if has_admin_role == "true"
              user_roles.push(add_user_roles(@add_user.user_id,@roles,ADMIN_ROLE))
             end
 
-            if has_librarian_role
+            if has_librarian_role == "true"
               user_roles.push(add_user_roles(@add_user.user_id,@roles,LIBRARIAN_ROLE))
             end
 
-            if has_user_role
+            if has_user_role == "true"
                user_roles.push(add_user_roles(@add_user.user_id,@roles,USER_ROLE))
             end 
 
@@ -69,15 +82,15 @@ class UsersController < ApplicationController
 
               ActiveRecord::Base.transaction do
                   
-                  @user_role = UserRole.create!(user_roles)
-
-                  respond_to do |format|
-                    format.html { render "index" }
-                    format.json { render json:@add_user.save!.to_json }
-                  end
+              @user_role = UserRole.create!(user_roles)
               end
             end
           end
+        end
+
+        respond_to do |format|
+          format.html { render "index" }
+          format.json { render json:@add_user.save!.to_json }
         end
     end
 
