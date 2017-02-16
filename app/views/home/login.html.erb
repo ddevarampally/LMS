@@ -4,7 +4,7 @@
 
 <%= form_for(@user, url: home_validate_login_path, html: { :class => "text-center" }) do |f| %>
 	
-	<%= f.text_field :email_address, required: true, placeholder: "Email", autofocus: true %>
+	<%= f.text_field :email_address, required: true, placeholder: "User Name", autofocus: true %>
 	<br><br>
 
 	<%= f.password_field :password, required: true, placeholder: "Password" %>

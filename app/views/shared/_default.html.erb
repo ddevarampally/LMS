@@ -8,7 +8,7 @@
           <% if !session[:current_is_new_user] %>
             <div class="pull-right" style="margin-top: -25px;">
                  <%= link_to "Log Out", home_logout_path,{:class => 'span1 pull-right font-family',:style => "color: white;margin-right:20px;"} %> 
-                 <%= link_to "Change Password", home_change_password_path,{:class => 'span2 pull-right font-family',:style => "color: white;margin-right:20px;"} %>
+                 <%= link_to "Change Password", home_change_password_path(link: true),{:class => 'span2 pull-right font-family',:style => "color: white;margin-right:20px;"} %>
             </div>
           <% end %>
         <% end %>

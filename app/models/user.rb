@@ -4,5 +4,5 @@ class User < ApplicationRecord
 	has_many :userroles
 	has_many :booksubscribers
 
-	attr_accessor :current_password, :new_password, :confirm_password
+	attr_accessor :current_password, :new_password, :confirm_password, :is_change_pwd_link
 end
