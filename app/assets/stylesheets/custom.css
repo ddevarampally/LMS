@@ -100,9 +100,9 @@
     font-family: sans-serif;
 }
 
-.textbox-format {
-  width: 15%;
-  height: 20px;
+.form-group .textbox-format {
+  width: 250px;
+  height: 30px;
 }
 
 .button-format {

@@ -1,5 +1,9 @@
+require "./lib/shared_modules"
+
 class HomeController < ApplicationController    
-    before_action :authenticate_user, :except => [:login, :validate_login, :forgot_password]
+  before_action :authenticate_user, :except => [:login, :validate_login, :forgot_password]
+
+  include Generate_encrypt_password
 
   def index
   end
@@ -28,16 +32,19 @@ class HomeController < ApplicationController
   end
 
   def validate_login   
-    @user = User.find_by(email_address: params[:user][:email_address], password: params[:user][:password], is_active: true)
+    @email_address = params[:user][:email_address]
+    @password = generate_encrypted_password(params[:user][:password]).chomp
 
-    if @user !@user.is_new_user
+    @user = User.find_by(email_address: @email_address, password: @password, is_active: true)
+    
+    if @user && !@user.is_new_user
       #assigning session values
       session_values(@user)
     
       redirect_to home_index_path
     else
       @user = User.new
-      @user.email_address = params[:user][:email_address] 
+      @user.email_address = @email_address
                      
       flash.now[:notice] = 'Invalid User Name or Password'        
       render "login"
@@ -55,11 +62,11 @@ class HomeController < ApplicationController
   def change_password
     if request.post?
       @current_password = params[:user][:current_password]
-      @new_password = params[:user][:new_password]
+      @new_password = generate_encrypted_password(params[:user][:new_password]).chomp
       @is_change_pwd_link = params[:user][:is_change_pwd_link]
       @message = ""
 
-      if !@current_password.nil? && session[:current_password] != @current_password     
+      if !@current_password.nil? && session[:current_password] != generate_encrypted_password(@current_password).chomp    
         @message = "Current Password is wrong"         
       elsif session[:current_password] == @new_password
         @message = "Current Password and New Password should not be same"                 

@@ -46,8 +46,8 @@ module Generate_encrypt_password
 
 	def generate_encrypted_password(password)
 
-		password = AESCrypt.encrypt(password,DECRYPT_PASSWORD)
+		password = AESCrypt.encrypt(password, AESCRYPT_SECRET_PASSWORD)
 
 		return password
-	end
+	end	
 end
