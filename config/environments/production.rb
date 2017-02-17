@@ -83,4 +83,8 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+  # URL for application
+  config.application_url = 'https://capslms.herokuapp.com/home/login?'
+
 end

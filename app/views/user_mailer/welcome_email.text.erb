@@ -1,0 +1,13 @@
+	Hello <%= "#{@user.last_name}, #{@user.first_name}" %>,
+
+
+	You have successfully added to LMS.
+
+	Your username is: <%= @user.email_address %>
+	
+	To Login to the site, just follow this link: <%= @url %>
+
+
+
+	Logged In User Name: <%= @user.created_by %>
+	CAPS LMS Environment: <%= Rails.env %>

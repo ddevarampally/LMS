@@ -82,7 +82,10 @@ class UsersController < ApplicationController
 
               ActiveRecord::Base.transaction do
                   
-              @user_role = UserRole.create!(user_roles)
+                @user_role = UserRole.create!(user_roles)
+
+                # Send Welcome Email Notification to newly add User.
+                UserMailer.welcome_email(@add_user).deliver_now
               end
             end
           end

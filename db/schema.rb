@@ -26,9 +26,9 @@ ActiveRecord::Schema.define(version: 20170216124018) do
     t.integer  "user_id"
     t.boolean  "is_active",               default: true,                  null: false
     t.string   "created_by",   limit: 30,                                 null: false
-    t.datetime "created_date",            default: '2017-02-08 11:10:14', null: false
+    t.datetime "created_date",            default: '2017-02-08 13:46:41', null: false
     t.string   "updated_by",   limit: 30,                                 null: false
-    t.datetime "updated_date",            default: '2017-02-08 11:10:14', null: false
+    t.datetime "updated_date",            default: '2017-02-08 13:46:41', null: false
   end
 
   create_table "book_transactions", primary_key: "book_transaction_id", id: :bigserial, force: :cascade do |t|
@@ -39,9 +39,9 @@ ActiveRecord::Schema.define(version: 20170216124018) do
     t.datetime "due_date"
     t.datetime "return_date"
     t.string   "created_by",    limit: 30,                                 null: false
-    t.datetime "created_date",             default: '2017-02-08 11:10:14', null: false
+    t.datetime "created_date",             default: '2017-02-08 13:46:40', null: false
     t.string   "updated_by",    limit: 30,                                 null: false
-    t.datetime "updated_date",             default: '2017-02-08 11:10:14', null: false
+    t.datetime "updated_date",             default: '2017-02-08 13:46:40', null: false
   end
 
   create_table "books", primary_key: "book_id", force: :cascade do |t|
@@ -58,9 +58,9 @@ ActiveRecord::Schema.define(version: 20170216124018) do
     t.datetime "return_date"
     t.boolean  "is_active",                    default: true,                  null: false
     t.string   "created_by",       limit: 30,                                  null: false
-    t.datetime "created_date",                 default: '2017-02-08 11:10:14', null: false
+    t.datetime "created_date",                 default: '2017-02-08 13:46:40', null: false
     t.string   "updated_by",       limit: 30,                                  null: false
-    t.datetime "updated_date",                 default: '2017-02-08 11:10:14', null: false
+    t.datetime "updated_date",                 default: '2017-02-08 13:46:40', null: false
   end
 
   create_table "roles", primary_key: "role_id", force: :cascade do |t|
@@ -86,9 +86,9 @@ ActiveRecord::Schema.define(version: 20170216124018) do
     t.string   "mobile_number", limit: 15
     t.boolean  "is_active",                default: true,                  null: false
     t.string   "created_by",    limit: 30,                                 null: false
-    t.datetime "created_date",             default: '2017-02-08 11:10:13', null: false
+    t.datetime "created_date",             default: '2017-02-08 13:46:39', null: false
     t.string   "updated_by",    limit: 30,                                 null: false
-    t.datetime "updated_date",             default: '2017-02-08 11:10:13', null: false
+    t.datetime "updated_date",             default: '2017-02-08 13:46:39', null: false
     t.boolean  "is_new_user",              default: true,                  null: false
     t.index ["email_address"], name: "unique_users_email_address", unique: true, using: :btree
   end
