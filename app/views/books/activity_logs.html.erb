@@ -1,5 +1,6 @@
 <h2 class="page-heading">Activity Logs</h2>
-<table id="activity_logs_grid" class="display">
+<br>
+<table id="activity_logs_grid" class="display" data-source="<%= books_activity_logs_url(format: "json") %>">
 	<thead>
 		<tr>
 			<th>Book Name</th>
@@ -7,14 +8,7 @@
 			<th>Updated Date</th>
 		</tr>
 	</thead>
-	<tbody>
-		<% @logs.each do |log| %>
-		<tr>
-			<td><%= log.book_name %></td>
-			<td><%= log.description %></td>
-			<td><%= log.updated_date.strftime("%b %e, %Y") %></td>
-		</tr> <br>
-		<% end %>
+	<tbody>		
 	</tbody>	
 </table>
 	
@@ -24,7 +18,10 @@
   	if(!$( "#activity_logs_grid" ).hasClass("dataTable")) {
   		$('#activity_logs_grid').dataTable({
 		  	sPaginationType: "full_numbers",
-		  	bJQueryUI: true
+		  	bJQueryUI: true,		  	
+		  	bProcessing: true,
+    		bServerSide: true,
+    		sAjaxSource: $('#activity_logs_grid').data('source')
 		})		
 	  	$('#activity_logs_grid_wrapper').addClass('datatable-format')
 	  }	

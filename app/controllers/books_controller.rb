@@ -5,6 +5,9 @@ class BooksController < ApplicationController
   end
   
   def activity_logs
-  	@logs = Book.all
+  	respond_to do |format|
+	    format.html
+	    format.json { render json: ActivityLogsDatatable.new(view_context) }
+  	end
   end
 end
