@@ -1,4 +1,4 @@
-	Hello <%= "#{@user.last_name}, #{@user.first_name}" %>,
+Hello <%= "#{@user.last_name}, #{@user.first_name}" %>,
 
 
 	You have successfully added to LMS.
@@ -10,4 +10,4 @@
 
 
 	Logged In User Name: <%= @user.created_by %>
-	CAPS LMS Environment: <%= Rails.env %>
+	CAPS LMS Environment: <%= Rails.env.capitalize() %>

@@ -65,8 +65,10 @@ Rails.application.configure do
     domain: 'capspayroll.com',
     authentication: 'plain',
     enable_starttls_auto: true,
-    user_name: ENV["GMAIL_USERNAME"],
-    password: ENV["GMAIL_PASSWORD"]
+    user_name: 'capsusers@gmail.com',
+    password: 'lms@1234'
   }
+
+   config.action_mailer.default_url_options = { :host => 'localhost', port: 3000 } 
 
 end

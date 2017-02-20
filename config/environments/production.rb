@@ -87,4 +87,18 @@ Rails.application.configure do
   # URL for application
   config.application_url = 'https://capslms.herokuapp.com/home/login?'
 
+  config.action_mailer.delivery_method = :smtp
+
+  config.action_mailer.smtp_settings = {
+    address: 'smtp.gmail.com',
+    port: 587,
+    domain: 'capspayroll.com',
+    authentication: :plain,
+    enable_starttls_auto: true,
+    user_name: 'capsusers@gmail.com',
+    password: 'lms@1234'
+  }
+
+  config.action_mailer.default_url_options = { :host => 'capslms.herokuapp.com' } 
+
 end

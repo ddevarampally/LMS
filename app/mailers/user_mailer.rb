@@ -1,7 +1,6 @@
 class UserMailer < ApplicationMailer
 
 	def welcome_email(user)
-
 		@user = user
 		@url  = Rails.configuration.application_url + @user.user_id.to_s + '&' + { token: @user.password }.to_query 
 
