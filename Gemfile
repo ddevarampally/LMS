@@ -30,6 +30,8 @@ gem 'jquery-datatables-rails', github: 'rweng/jquery-datatables-rails'
 
 gem 'jquery-ui-rails'
 
+gem 'will_paginate'
+
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 
