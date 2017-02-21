@@ -23,13 +23,14 @@
             <td><%= book.borrowed_date.try(:strftime, '%B %d, %Y')  %></td>
             <td><%= book.due_date.try(:strftime, '%B %d, %Y') %></td>
             <td> 
-                        <%=  %>
-                        <%=  %><br />
-                        <%=  %>
+                        <%= button_to("Edit") %>
+                        <%= button_to("Delete") %>
+                        <%= button_to("Subscribe") %>
             </td>            
         </tr> <br />
         <% end %>
     </tbody>    
+    <%= button_to("Add New Book") %><br /><br />
 </table>
 
 <script type="text/javascript">
