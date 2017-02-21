@@ -1,4 +1,7 @@
-<h2 style="text-align: center;font-family: sans-serif;">Book Management</h2>
+<h2 class="page-heading">Book Management</h2>
+<div class="span3 pull-right text-center" style="margin-bottom:10px; margin-right:2.7%;">
+	<button id="add-new-book" class="btn btn-primary font-family" style="width: 120px; color:white;" >Add Book</button>
+</div>
 <table id="book_management_grid" class="display">
     <thead>
         <tr>
@@ -23,14 +26,13 @@
             <td><%= book.borrowed_date.try(:strftime, '%B %d, %Y')  %></td>
             <td><%= book.due_date.try(:strftime, '%B %d, %Y') %></td>
             <td> 
-                        <%= button_to("Edit") %>
-                        <%= button_to("Delete") %>
-                        <%= button_to("Subscribe") %>
+                <%= button_to("Edit") %>
+                <%= button_to("Delete") %>
+                <%= button_to("Subscribe") %>
             </td>            
         </tr> <br />
         <% end %>
     </tbody>    
-    <%= button_to("Add New Book") %><br /><br />
 </table>
 
 <script type="text/javascript">
@@ -41,7 +43,7 @@
         bJQueryUI: true
       })
 
-      //$('#activity_logs_grid_wrapper').addClass('datatable-format')
+      $('#book_management_grid_wrapper').addClass('datatable-format')
    })
 
 </script>
