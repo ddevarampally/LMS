@@ -1,0 +1,27 @@
+<% if @subject == 'Welcome to LMS' %>
+Hello <%= "#{@user.last_name} #{@user.first_name}" %>,
+	
+	You have successfully added to LMS.
+
+	Your username is: <%= @user.email_address %>
+	
+	To Login to the site, just follow this link: <%= @url %>
+
+
+
+	Logged In User Name: <%= @user.created_by %>
+	CAPS LMS Environment: <%= Rails.env.capitalize() %>
+<% end %>
+
+<% if @subject == 'LMS - Forgot Password' %>
+Hello <%= "#{@user.last_name} #{@user.first_name}" %>,
+
+
+	Your username is: <%= @user.email_address %>
+	
+	To Reset Password, just follow this link: <%= @url %>
+
+
+
+	CAPS LMS Environment: <%= Rails.env.capitalize() %>
+<% end %>

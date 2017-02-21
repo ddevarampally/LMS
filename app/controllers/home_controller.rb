@@ -53,10 +53,17 @@ class HomeController < ApplicationController
 
   def forgot_password
     @email_address = params[:email_address]
+    @user = User.find_by(email_address: @email_address, is_active: true)
+    is_success = false
 
-    respond_to do |format|
-        format.json { render json: @email_address.to_json }
+    if @user      
+      # Send Forgot Password Email Notification
+      UserMailer.user_notification_email(@user, 'LMS - Forgot Password').deliver_now      
+      is_success = true
     end
+    respond_to do |format|
+        format.json { render json: is_success.to_json }
+    end    
   end
 
   def change_password
