@@ -19,11 +19,23 @@
         <div style="margin-top: 20px;" class="text-center">
           <button class="btn btn-primary" style="width:120px;margin-right:5px;margin-bottom:5px;"><%= link_to "Home",home_index_path, {:style => "color:white;",:class => 'font-family'} %> </button>
           <button class="btn btn-primary" style="width:145px;margin-right:5px;margin-bottom:5px;"><%= link_to "Book Management",books_index_path, {:style => "color:white;",:class => 'font-family'} %> </button>
-          <button class="btn btn-primary" style="width:160px;margin-right:5px;margin-bottom:5px;"><%= link_to "Borrow / Return Book",home_index_path, {:style => "color:white;",:class => 'font-family'} %> </button>
-          <button class="btn btn-primary" style="width:120px;margin-right:5px;margin-bottom:5px;"><%= link_to "Users",users_index_path, {:style => "color:white;",:class => 'font-family'} %> </button>
-          <button class="btn btn-primary" style="width:120px;margin-right:5px;margin-bottom:5px;"><%= link_to "Activity Logs",books_activity_logs_path, {:style => "color:white;",:class => 'font-family'} %> </button>
-        </div>
 
+          <% if (!session[:is_admin].nil? && session[:is_admin]) || (!session[:is_librarian].nil? && session[:is_librarian] && !session[:is_user].nil? && session[:is_user]) %>       
+              <button class="btn btn-primary" style="width:160px;margin-right:5px;margin-bottom:5px;"><%= link_to "Borrow / Return Book",home_index_path, {:style => "color:white;",:class => 'font-family'} %> </button>
+              <button class="btn btn-primary" style="width:120px;margin-right:5px;margin-bottom:5px;"><%= link_to "Users",users_index_path, {:style => "color:white;",:class => 'font-family'} %> </button>
+              <button class="btn btn-primary" style="width:120px;margin-right:5px;margin-bottom:5px;"><%= link_to "Activity Logs",books_activity_logs_path, {:style => "color:white;",:class => 'font-family'} %> </button>
+          <% end %>  
+
+          <% if !session[:is_librarian].nil? && session[:is_librarian] && (session[:is_admin].nil? || !session[:is_admin]) && (session[:is_user].nil? || !session[:is_user]) %>
+              <button class="btn btn-primary" style="width:160px;margin-right:5px;margin-bottom:5px;"><%= link_to "Borrow / Return Book",home_index_path, {:style => "color:white;",:class => 'font-family'} %> </button>
+              <button class="btn btn-primary" style="width:120px;margin-right:5px;margin-bottom:5px;"><%= link_to "Users",users_index_path, {:style => "color:white;",:class => 'font-family'} %> </button>
+          <% end %>   
+
+          <% if !session[:is_user].nil? && session[:is_user] && (session[:is_admin].nil? || !session[:is_admin]) && (session[:is_librarian].nil? || !session[:is_librarian]) %>   
+              <button class="btn btn-primary" style="width:120px;margin-right:5px;margin-bottom:5px;"><%= link_to "Activity Logs",books_activity_logs_path, {:style => "color:white;",:class => 'font-family'} %> </button>          
+          <% end %>  
+
+        </div>
       <% end %>    
     <% end %>
 

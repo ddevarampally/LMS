@@ -22,6 +22,8 @@ class HomeController < ApplicationController
           @user.is_new_user = true  #to hide menu bar in change password screen
           #assigning session values
           session_values(@user)
+          #assigning user roles
+          user_roles(@user.user_id)
           
           redirect_to home_change_password_path
         else
@@ -40,6 +42,8 @@ class HomeController < ApplicationController
     if @user && !@user.is_new_user
       #assigning session values
       session_values(@user)
+      #assigning user roles
+      user_roles(@user.user_id)
     
       redirect_to home_index_path
     else
@@ -113,15 +117,32 @@ class HomeController < ApplicationController
     session[:current_password] = nil
     session[:current_is_new_user] = nil
 
+    session[:is_admin] = nil
+    session[:is_librarian] = nil
+    session[:is_user] = nil
+
     redirect_to home_login_path
   end
 
-  private
+private
   def session_values(user)
       session[:current_user_id] = user.user_id
       session[:current_email_address] = user.email_address
       session[:current_password] = user.password
       session[:current_is_new_user] = user.is_new_user
+  end
+
+  def user_roles(user_id)
+    user_roles = UserRole.select("roles.role_name").joins(:role).where("user_roles.user_id = " + user_id.to_s)
+    user_roles.each do |role|
+      if role.role_name == ADMIN_ROLE
+        session[:is_admin] = true
+      elsif role.role_name == LIBRARIAN_ROLE
+        session[:is_librarian] = true
+      elsif role.role_name == USER_ROLE
+        session[:is_user] = true
+      end
+    end
   end
 
 end
