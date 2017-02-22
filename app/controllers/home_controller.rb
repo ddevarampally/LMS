@@ -62,7 +62,7 @@ class HomeController < ApplicationController
 
     if @user      
       # Send Forgot Password Email Notification
-      UserMailer.user_notification_email(@user, 'LMS - Forgot Password').deliver_now      
+      UserMailer.user_notification_email(@user, FORGOT_PASSWORD_MAIL_SUBJECT).deliver_now      
       is_success = true
     end
     respond_to do |format|

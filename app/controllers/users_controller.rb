@@ -85,7 +85,7 @@ class UsersController < ApplicationController
                 @user_role = UserRole.create!(user_roles)
                 
                  # Send Welcome Email Notification to newly add User.
-                UserMailer.user_notification_email(@add_user, 'Welcome to LMS').deliver_now
+                UserMailer.user_notification_email(@add_user, WELCOME_MAIL_SUBJECT).deliver_now
               end
             end
           end
