@@ -1,16 +1,42 @@
 $(document).on('turbolinks:load',function(){
 
+	var userData =[];
 	var errorElement = $('#add-new-user-form-message');
 	var userModal = $('#add-new-user-modal');
+	var usersGrid = $("#users-grid");
+	var userGrid;
 
-	if(!$( "#users_grid" ).hasClass("dataTable")) {
-  		$('#users_grid').dataTable({
-		  	sPaginationType: "full_numbers",
-		  	bJQueryUI: true
-		});		
-	  	$('#users_grid_wrapper').addClass('datatable-format');
+	if(!usersGrid.hasClass("DataTable")) {
+
+  		userGrid = 	usersGrid.DataTable({
+			  		sPaginationType: "full_numbers",
+			  		bJQueryUI: true,		  	
+			  		bProcessing: true,
+					bServerSide: true,
+					sAjaxSource: $('#users-grid').data('source'),
+					"columnDefs": [
+							{
+								"targets": [-1],
+								"data": null,
+								"defaultContent": "<a href='#' class='grid-link-btn editUser'>Edit</a> | <a href='#' class='grid-link-btn deleteUser'>Delete</a>",
+								"searchable": false,
+								"orderable":false
+							},{
+								"targets": [-2],
+								"searchable": false,
+								"orderable":false
+							}
+					],
+					"order": [[0, "asc"]],
+					'fnCreatedRow': function (nRow, aaData, iDataIndex) {
+				         $(nRow).attr('id', 'DURow_' + aaData[4]); // or whatever you choose to set as the id
+				    }
+		});
+
+	  	$('#users-grid_wrapper').addClass('datatable-format');
 	}
 
+	// Add User
 	$('#add-new-user').click(function(e){
 
   		resetValidation(errorElement);
@@ -88,17 +114,49 @@ $(document).on('turbolinks:load',function(){
 			});
 		}
 	});
+
+	// Delete User
+	$(document).on('click','.deleteUser',function(e){
+		
+		e.preventDefault();
+		userData = $(this).parents('tr');
+
+		confirmationBox("DeleteUser",true);
+	});
+
+	$("#btn-delete-confirmation").click(function(){
+
+		var id = userData.attr('id');
+
+		$.ajax({
+				url:"/users/delete",
+				type: "POST",
+				data: {"id": id.substring(id.length-2)},
+				dataType: "json"
+			}).done(function(data){
+				
+				if(data != null){
+					if(data){
+						confirmationBox("DeleteUser",false);
+					}
+					else{
+						validation(errorElement,'Error Occured...');
+					}
+				}
+				else{
+					validation(errorElement,'Error Occured...');
+				}
+				
+			});
+	});
+
+	// Update User
+	$(document).on('click','.editUser',function(e){
+		
+		e.preventDefault();
+		userData = $(this).parents('tr');
+
+		confirmationBox("EditUser",true);
+	});
+
 });
-
-
-function validation(el,errorMsg){
-	if(!el.find('ul').length > 0){
-		el.append('<ul></ul>');
-	}
-
-	el.find('ul').append('<li>'+ errorMsg +'</li>');
-}
-
-function resetValidation(el){
-	el.empty();
-}
