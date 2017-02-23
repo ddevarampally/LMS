@@ -56,40 +56,43 @@ $(document).on('turbolinks:load',function(){
 		resetValidation(errorElement);
 
 		var roles = $('#RoleTypes-section');
-		var firstName = $('#edit-first-name');
-		var lastName = $('#edit-last-name');
-		var userName = $('#edit-email');
-		var phoneNumber = $('#edit-phone');
+		var firstName = $('#edit-first-name').val();
+		var lastName = $('#edit-last-name').val();
+		var userName = $('#edit-email').val();
+		var phoneNumber = $('#edit-phone').val();
+		var phoneRegex = /^[0-9]+$/;
 
+		var hasErrors = false;
 
-		if(firstName.val() == "" || lastName.val() == "" || userName.val() == "" || !roles.find("input[type='checkbox']").is(':checked')){
-			if(firstName.val() == ""){
-				validation(errorElement,'Please Enter First Name');
-			}
-			
-			if(lastName.val() == ""){
-				validation(errorElement,'Please Enter Last Name');
-			}
-
-			if(userName.val() == ""){
-				validation(errorElement,'Please Enter User Name');
-			}
-
-			if(!roles.find("input[type='checkbox']").is(':checked')){
-				validation(errorElement,'Please Select Atleast One Role');
-			}
-				return false;
+		if(firstName == ""){
+			hasErrors = true;
+			validation(errorElement,'Please Enter First Name');
+		}			
+		if(lastName == ""){
+			hasErrors = true;
+			validation(errorElement,'Please Enter Last Name');
 		}
-		else{
-			
+		if(userName == ""){
+			hasErrors = true;
+			validation(errorElement,'Please Enter User Name');
+		}
+		if(phoneNumber != "" && !phoneRegex.test(phoneNumber)) {
+			hasErrors = true;
+			validation(errorElement,'Phone Number accepts digits only');
+		}
+		if(!roles.find("input[type='checkbox']").is(':checked')){
+			hasErrors = true;
+			validation(errorElement,'Please select atleast one Role');
+		}			
+		if(!hasErrors) {
 			var data = {
-					'first_name' : firstName.val(),
-					'last_name' : lastName.val(),
-					'user_name' : userName.val(),
-					'phone_number' : phoneNumber.val(),
-					'has_admin_role' : $('#edit-add-adminRole').is(":checked"),
-					'has_librarian_role' : $('#edit-add-librarianRole').is(":checked"),
-					'has_user_role' : $('#edit-add-userRole').is(":checked")
+				'first_name' : firstName,
+				'last_name' : lastName,
+				'user_name' : userName,
+				'phone_number' : phoneNumber,
+				'has_admin_role' : $('#edit-add-adminRole').is(":checked"),
+				'has_librarian_role' : $('#edit-add-librarianRole').is(":checked"),
+				'has_user_role' : $('#edit-add-userRole').is(":checked")
 			}; 
 
 			$.ajax({
@@ -109,8 +112,7 @@ $(document).on('turbolinks:load',function(){
 				}
 				else{
 					validation(errorElement,'Error Occured...');
-				}
-				
+				}				
 			});
 		}
 	});

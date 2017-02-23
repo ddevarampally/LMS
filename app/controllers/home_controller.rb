@@ -81,6 +81,10 @@ class HomeController < ApplicationController
         @message = "Current Password is wrong"         
       elsif session[:current_password] == @new_password
         @message = "Current Password and New Password should not be same"                 
+      elsif (params[:user][:new_password]).downcase.include? (session[:current_first_name]).downcase
+        @message = "New Password should not contain your First Name"                 
+      elsif (params[:user][:new_password]).downcase.include? (session[:current_last_name]).downcase
+        @message = "New Password should not contain your Last Name"           
       end
 
       if @message == ""
@@ -116,6 +120,8 @@ class HomeController < ApplicationController
     session[:current_email_address] = nil
     session[:current_password] = nil
     session[:current_is_new_user] = nil
+    session[:current_first_name] = nil
+    session[:current_last_name] = nil
 
     session[:is_admin] = nil
     session[:is_librarian] = nil
@@ -130,6 +136,8 @@ private
       session[:current_email_address] = user.email_address
       session[:current_password] = user.password
       session[:current_is_new_user] = user.is_new_user
+      session[:current_first_name] = user.first_name
+      session[:current_last_name] = user.last_name
   end
 
   def user_roles(user_id)
