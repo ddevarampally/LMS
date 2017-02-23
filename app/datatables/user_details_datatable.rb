@@ -3,7 +3,7 @@ class UserDetailsDataTable
 
 	def initialize(view)
     	@view = view
-  	end
+	end
 
 	def as_json(options = {})
     {
