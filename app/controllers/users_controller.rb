@@ -25,10 +25,6 @@ class UsersController < ApplicationController
         
         @user_roles = UserRole.where(user_id: id )
 
-        Rails.logger.info "---------------------------"
-        Rails.logger.info @user_roles
-        Rails.logger.info "---------------------------"
-
         if @user_roles.delete_all
           ActiveRecord::Base.transaction  do
             @user = User.find(id)
