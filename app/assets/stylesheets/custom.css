@@ -151,3 +151,13 @@ legend + .control-group {
 .form-horizontal .controls:first-child {
   *padding-left: 180px;
 }
+
+a.grid-link-btn {
+    color: #0088CC !important;
+    font-size:small;
+}
+
+a.grid-link
+{
+     color: #0088CC !important;
+}

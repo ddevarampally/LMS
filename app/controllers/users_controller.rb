@@ -1,4 +1,5 @@
 require "./lib/shared_modules"
+require "./app/datatables/user_details_datatable"
 
 class UsersController < ApplicationController
  	before_action :authenticate_user
@@ -6,38 +7,48 @@ class UsersController < ApplicationController
   include Generate_encrypt_password
 
   def index
-  		@user_roles = User.where(is_active: true)
-
-  		if @user_roles.any?
-
-        @roles = {}
-        @user_ids = @user_roles.pluck('user_id')
-
-        if @user_ids.any? 
-          
-          @roles_types = UserRole.includes(:role).where(user_id: @user_ids).pluck('user_id,roles.role_name')
-
-          @roles_types.each do |role|
-           
-             id = role[0] 
-             if @roles.key? (id) 
-                @roles[id] = "#{@roles[id]} | #{role[1]}"
-                   
-              else
-                @roles[id] = role[1]
-
-              end
-          end  
-        end
-      end
+  	respond_to do |format|
+      format.html
+      format.json { render json: UserDetailsDataTable.new(view_context) }
+    end
   end
-  
+
   def edit
   
   end
 
   def delete
-    
+      is_deleted = false
+      id = params[:id].to_i
+
+      ActiveRecord::Base.transaction  do 
+        
+        @user_roles = UserRole.where(user_id: id )
+
+        Rails.logger.info "---------------------------"
+        Rails.logger.info @user_roles
+        Rails.logger.info "---------------------------"
+
+        if @user_roles.delete_all
+          ActiveRecord::Base.transaction  do
+            @user = User.find(id)
+
+            if !session[:current_email_address].nil?
+              @user.updated_by = session[:current_email_address]
+            end
+
+            if @user.update_attributes(is_active: false)
+               is_deleted =true
+             end 
+          end
+        end
+      end
+
+      respond_to do |format|
+        format.html { render "index" }
+        format.json { render json:is_deleted.to_json }
+      end
+
   end
 
   def add
@@ -60,40 +71,40 @@ class UsersController < ApplicationController
         @add_user.updated_by = session[:current_email_address]
       end
       
-        ActiveRecord::Base.transaction do 
-          if @add_user.save
+      ActiveRecord::Base.transaction do 
+        if @add_user.save
 
-            @roles = Role.all
-            user_roles = []
-           
-            if has_admin_role == "true"
-             user_roles.push(add_user_roles(@add_user.user_id,@roles,ADMIN_ROLE))
-            end
+          @roles = Role.all
+          user_roles = []
+         
+          if has_admin_role == "true"
+           user_roles.push(add_user_roles(@add_user.user_id,@roles,ADMIN_ROLE))
+          end
 
-            if has_librarian_role == "true"
-              user_roles.push(add_user_roles(@add_user.user_id,@roles,LIBRARIAN_ROLE))
-            end
+          if has_librarian_role == "true"
+            user_roles.push(add_user_roles(@add_user.user_id,@roles,LIBRARIAN_ROLE))
+          end
 
-            if has_user_role == "true"
-               user_roles.push(add_user_roles(@add_user.user_id,@roles,USER_ROLE))
-            end 
+          if has_user_role == "true"
+             user_roles.push(add_user_roles(@add_user.user_id,@roles,USER_ROLE))
+          end 
 
-            if user_roles.any? 
+          if user_roles.any? 
 
-              ActiveRecord::Base.transaction do
-                  
-                @user_role = UserRole.create!(user_roles)
+            ActiveRecord::Base.transaction do
                 
-                 # Send Welcome Email Notification to newly add User.
-                UserMailer.welcome_email(@add_user).deliver_now
-              end
+              @user_role = UserRole.create!(user_roles)
+              
+               # Send Welcome Email Notification to newly add User.
+              UserMailer.welcome_email(@add_user).deliver_now
             end
           end
         end
-        respond_to do |format|
-          format.html { render "index" }
-          format.json { render json:@add_user.save!.to_json }
-        end
+      end
+      respond_to do |format|
+        format.html { render "index" }
+        format.json { render json:@add_user.save!.to_json }
+      end
     end
 
   def add_user_roles(user_id, roles ,str_role)
