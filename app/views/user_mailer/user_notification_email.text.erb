@@ -4,8 +4,6 @@ Hello <%= "#{@user.last_name} #{@user.first_name}" %>,
 
 	You have successfully added to LMS.
 
-	Your username is: <%= @user.email_address %>
-	
 	To Login to the site, just follow this link: <%= @url %>
 
 
@@ -13,8 +11,9 @@ Hello <%= "#{@user.last_name} #{@user.first_name}" %>,
 	Logged In User Name: <%= @user.created_by %>
 <% end %>
 <% if @subject == FORGOT_PASSWORD_MAIL_SUBJECT %>
-
-	Your username is: <%= @user.email_address %>
+	<% if !@user.user_name.nil? %>
+	Your username is: <%= @user.user_name %>
+	<% end %>
 	
 	To Reset Password, just follow this link: <%= @url %>
 

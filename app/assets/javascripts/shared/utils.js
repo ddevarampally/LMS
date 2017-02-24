@@ -1,3 +1,5 @@
+var _emailDomains = ['capspayroll.com', 'castandcrew.com'];
+
 function validation(el,errorMsg){
 	if(!el.find('ul').length > 0){
 		el.append('<ul></ul>');
@@ -26,3 +28,19 @@ function confirmationBox(confirmationType,isModal){
 		
 	}
 }	
+
+function emailRegex(value) {
+	var pattern = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}$/;
+	if(pattern.test(value)) {
+		return true;
+	}
+	return false;
+}
+
+function phoneNoRegex(value) {
+	var pattern = /^[0-9]+$/;
+	if(pattern.test(value)) {
+		return true;
+	}
+	return false;
+}

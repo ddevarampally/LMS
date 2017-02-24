@@ -58,7 +58,7 @@ class UsersController < ApplicationController
       @add_user.first_name = params[:first_name]
       @add_user.last_name  = params[:last_name]
       @add_user.mobile_number = params[:phone_number]
-      @add_user.email_address = params[:user_name]
+      @add_user.email_address = params[:email_address]
 
       @add_user.password = generate_password()
        

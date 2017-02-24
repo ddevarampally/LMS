@@ -58,9 +58,8 @@ $(document).on('turbolinks:load',function(){
 		var roles = $('#RoleTypes-section');
 		var firstName = $('#edit-first-name').val();
 		var lastName = $('#edit-last-name').val();
-		var userName = $('#edit-email').val();
-		var phoneNumber = $('#edit-phone').val();
-		var phoneRegex = /^[0-9]+$/;
+		var emailAddress = $('#edit-email').val();
+		var phoneNumber = $('#edit-phone').val();		
 
 		var hasErrors = false;
 
@@ -72,11 +71,15 @@ $(document).on('turbolinks:load',function(){
 			hasErrors = true;
 			validation(errorElement,'Please Enter Last Name');
 		}
-		if(userName == ""){
+		if(emailAddress == ""){
 			hasErrors = true;
-			validation(errorElement,'Please Enter User Name');
+			validation(errorElement,'Please Enter Email Address');
 		}
-		if(phoneNumber != "" && !phoneRegex.test(phoneNumber)) {
+		if(emailAddress != "" && (!emailRegex(emailAddress) || _emailDomains.indexOf(emailAddress.split('@')[1]) == -1)) {
+			hasErrors = true;
+			validation(errorElement,'Email Address format is not valid');
+		}
+		if(phoneNumber != "" && !phoneNoRegex(phoneNumber)) {
 			hasErrors = true;
 			validation(errorElement,'Phone Number accepts digits only');
 		}
@@ -88,7 +91,7 @@ $(document).on('turbolinks:load',function(){
 			var data = {
 				'first_name' : firstName,
 				'last_name' : lastName,
-				'user_name' : userName,
+				'email_address' : emailAddress,
 				'phone_number' : phoneNumber,
 				'has_admin_role' : $('#edit-add-adminRole').is(":checked"),
 				'has_librarian_role' : $('#edit-add-librarianRole').is(":checked"),

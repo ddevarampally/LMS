@@ -34,12 +34,12 @@ class HomeController < ApplicationController
   end
 
   def validate_login   
-    @email_address = params[:user][:email_address]
+    @user_name = params[:user][:user_name]
     @password = generate_encrypted_password(params[:user][:password]).chomp
 
-    @user = User.find_by(email_address: @email_address, password: @password, is_active: true)
+    @user = User.find_by(user_name: @user_name, password: @password, is_active: true)
     
-    if @user && !@user.is_new_user
+    if @user
       #assigning session values
       session_values(@user)
       #assigning user roles
@@ -48,7 +48,7 @@ class HomeController < ApplicationController
       redirect_to home_index_path
     else
       @user = User.new
-      @user.email_address = @email_address
+      @user.user_name = @user_name
                      
       flash.now[:notice] = 'Invalid User Name or Password'        
       render "login"
@@ -72,12 +72,18 @@ class HomeController < ApplicationController
 
   def change_password
     if request.post?
+      @user_name = params[:user][:user_name]
       @current_password = params[:user][:current_password]
       @new_password = generate_encrypted_password(params[:user][:new_password]).chomp
       @is_change_pwd_link = params[:user][:is_change_pwd_link]
       @message = ""
 
-      if !@current_password.nil? && session[:current_password] != generate_encrypted_password(@current_password).chomp    
+      if !@user_name.nil?
+        @user = User.find_by(user_name: @user_name)
+        if @user
+          @message = "User Name ( " + @user_name + " ) is already exist"
+        end
+      elsif !@current_password.nil? && session[:current_password] != generate_encrypted_password(@current_password).chomp    
         @message = "Current Password is wrong"         
       elsif session[:current_password] == @new_password
         @message = "Current Password and New Password should not be same"                 
@@ -89,7 +95,9 @@ class HomeController < ApplicationController
 
       if @message == ""
         @user = User.find(session[:current_user_id])
-        if @user.update(password: @new_password, is_new_user: false)
+        @user.user_name = @user_name.nil? ? @user.user_name : @user_name
+
+        if @user.update(user_name: @user.user_name, password: @new_password, is_new_user: false)
             #assigning session values
             session_values(@user)
             
@@ -97,6 +105,7 @@ class HomeController < ApplicationController
         else
           @user = User.new
           @user.is_change_pwd_link = @is_change_pwd_link
+          @user.user_name = session[:current_user_name]
 
           flash.now[:notice] = "Error Occured while updating New Password"       
           render "change_password"
@@ -104,6 +113,7 @@ class HomeController < ApplicationController
       else    
           @user = User.new
           @user.is_change_pwd_link = @is_change_pwd_link
+          @user.user_name = session[:current_user_name]
 
           flash.now[:notice] = @message      
           render "change_password"
@@ -111,6 +121,8 @@ class HomeController < ApplicationController
     else      
       @user = User.new
       @user.is_change_pwd_link = params[:link]
+      @user.user_name = session[:current_user_name]
+      
       render "change_password"
     end  	
   end
@@ -122,6 +134,7 @@ class HomeController < ApplicationController
     session[:current_is_new_user] = nil
     session[:current_first_name] = nil
     session[:current_last_name] = nil
+    session[:current_user_name] = nil
 
     session[:is_admin] = nil
     session[:is_librarian] = nil
@@ -138,6 +151,7 @@ private
       session[:current_is_new_user] = user.is_new_user
       session[:current_first_name] = user.first_name
       session[:current_last_name] = user.last_name
+      session[:current_user_name] = user.user_name
   end
 
   def user_roles(user_id)
