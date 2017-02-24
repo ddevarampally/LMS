@@ -108,6 +108,7 @@ $(document).on('turbolinks:load',function(){
 				if(data != null){
 					if(data){
 						userModal.modal('hide');
+						window.location = '/users/index';
 					}
 					else{
 						validation(errorElement,'Error Occured...');
@@ -143,6 +144,7 @@ $(document).on('turbolinks:load',function(){
 				if(data != null){
 					if(data){
 						confirmationBox("DeleteUser",false);
+						window.location = '/users/index';
 					}
 					else{
 						validation(errorElement,'Error Occured...');
