@@ -2,9 +2,9 @@ $(document).on('turbolinks:load',function(){
 
 	var userData =[];
 	var errorElement = $('#add-new-user-form-message');
-	var userModal = $('#add-new-user-modal');
 	var usersGrid = $("#users-grid");
 	var userGrid;
+	var userId = 0;
 
 	if(!usersGrid.hasClass("DataTable")) {
 
@@ -16,29 +16,38 @@ $(document).on('turbolinks:load',function(){
 					sAjaxSource: $('#users-grid').data('source'),
 					"columnDefs": [
 							{
-								"targets": [-1],
-								"data": null,
-								"defaultContent": "<a href='#' class='grid-link-btn editUser'>Edit</a> | <a href='#' class='grid-link-btn deleteUser'>Delete</a>",
+								"targets": [0,6,7,8,9,10],
 								"searchable": false,
-								"orderable":false
+								"orderable":false,
+								"visible":false
 							},{
-								"targets": [-2],
+								"targets": [4,5],
 								"searchable": false,
 								"orderable":false
 							}
 					],
-					"order": [[0, "asc"]],
 					'fnCreatedRow': function (nRow, aaData, iDataIndex) {
-				         $(nRow).attr('id', 'DURow_' + aaData[4]); // or whatever you choose to set as the id
+				         $(nRow).attr('id', 'DURow_' + aaData[0]); // or whatever you choose to set as the id
 				    }
 		});
 
 	  	$('#users-grid_wrapper').addClass('datatable-format');
 	}
 
+	var roles = $('#RoleTypes-section');
+	var firstName = $('#edit-first-name');
+	var lastName = $('#edit-last-name');
+	var emailAddress = $('#edit-email');
+	var phoneNumber = $('#edit-phone');
+	var adminRole = $('#edit-add-adminRole');
+	var librarianRole = $('#edit-add-librarianRole');
+	var userRole = $('#edit-add-userRole');
+	var isCreateEditUser = false;
+	var isExistsAdminRole = isExistsLibrarianRole = isExistsUserRole = false;
+
 	// Add User
 	$('#add-new-user').click(function(e){
-
+  		isCreateEditUser = true;
   		resetValidation(errorElement);
 
   		$('#edit-first-name,#edit-last-name,#edit-email,#edit-phone').val('');
@@ -48,21 +57,14 @@ $(document).on('turbolinks:load',function(){
   			roletypes.find("input[type='checkbox']:checked").removeAttr("checked");
   		}
 
-  		userModal.modal('show');
+  		confirmationBox("CreateUser",true);
 	});
 
 	$('#btn_save_new_user').click(function(e){
-				
+		isCreateEditUser = true;
 		resetValidation(errorElement);
 
-		var roles = $('#RoleTypes-section');
-		var firstName = $('#edit-first-name');
-		var lastName = $('#edit-last-name');
-		var userName = $('#edit-email');
-		var phoneNumber = $('#edit-phone');
-
-
-		if(firstName.val() == "" || lastName.val() == "" || userName.val() == "" || !roles.find("input[type='checkbox']").is(':checked')){
+		if(firstName.val() == "" || lastName.val() == "" || emailAddress.val() == "" || !roles.find("input[type='checkbox']").is(':checked')){
 			if(firstName.val() == ""){
 				validation(errorElement,'Please Enter First Name');
 			}
@@ -71,7 +73,7 @@ $(document).on('turbolinks:load',function(){
 				validation(errorElement,'Please Enter Last Name');
 			}
 
-			if(userName.val() == ""){
+			if(emailAddress.val() == ""){
 				validation(errorElement,'Please Enter User Name');
 			}
 
@@ -85,11 +87,16 @@ $(document).on('turbolinks:load',function(){
 			var data = {
 					'first_name' : firstName.val(),
 					'last_name' : lastName.val(),
-					'user_name' : userName.val(),
+					'email_address' : emailAddress.val(),
 					'phone_number' : phoneNumber.val(),
-					'has_admin_role' : $('#edit-add-adminRole').is(":checked"),
-					'has_librarian_role' : $('#edit-add-librarianRole').is(":checked"),
-					'has_user_role' : $('#edit-add-userRole').is(":checked")
+					'has_admin_role' : adminRole.is(":checked"),
+					'has_librarian_role' : librarianRole.is(":checked"),
+					'has_user_role' : userRole.is(":checked"),
+					'is_edit_user': isCreateEditUser,
+					'user_id': userId,
+					'is_exist_admin_role':isExistsAdminRole,
+					'is_exist_librarian_role':isExistsLibrarianRole,
+					'is_exist_user_role':isExistsUserRole
 			}; 
 
 			$.ajax({
@@ -101,7 +108,7 @@ $(document).on('turbolinks:load',function(){
 				
 				if(data != null){
 					if(data){
-						userModal.modal('hide');
+						confirmationBox("CreateUser",true);
 					}
 					else{
 						validation(errorElement,'Error Occured...');
@@ -110,7 +117,6 @@ $(document).on('turbolinks:load',function(){
 				else{
 					validation(errorElement,'Error Occured...');
 				}
-				
 			});
 		}
 	});
@@ -155,8 +161,22 @@ $(document).on('turbolinks:load',function(){
 		
 		e.preventDefault();
 		userData = $(this).parents('tr');
+		var data = userGrid.row(userData).data();
+
+		firstName.val(data[6]);
+		lastName.val(data[7]);
+		emailAddress.val(data[2]);
+		phoneNumber.val(data[3]);
+		userId = data[0];
+
+		var isExistsAdminRole = data[8].includes("is_Admin");
+		var isExistsLibrarianRole = data[9].includes("is_Librarian");
+		var isExistsUserRole = data[8].includes("is_User");
+
+		isCheckedAttr(adminRole,isExistsAdminRole);
+		isCheckedAttr(librarianRole,isExistsLibrarianRole);
+		isCheckedAttr(userRole,isExistsUserRole);
 
 		confirmationBox("EditUser",true);
 	});
-
 });

@@ -35,12 +35,18 @@ private
     end
 
     details.map do |user_detail|
-      [ 
-        format_full_name(user_detail.last_name,user_detail.first_name),
+      [
+        user_detail.user_id, 
+        format_user_name(user_detail,true),
         user_detail.email_address,
         user_detail.mobile_number,
         format_role(@roles,user_detail.user_id),
-        format_action_row_id(user_detail.user_id)
+        format_action_row_id,
+        format_user_name(user_detail,false),
+        format_user_name(user_detail,false,false),
+        format_role(@roles,user_detail.user_id,true,ADMIN_ROLE),
+        format_role(@roles,user_detail.user_id,true,LIBRARIAN_ROLE),
+        format_role(@roles,user_detail.user_id,true,USER_ROLE)
       ]
     end
   end
@@ -76,21 +82,29 @@ private
     params[:sSortDir_0] == "desc" ? "desc" : "asc"
   end
 
-  def format_full_name(last_name, first_name)
-    return "#{last_name.capitalize}, #{first_name.capitalize}"
+  def format_user_name(user,is_full_name,is_first_name = true)
+
+    user_name = is_full_name ? "#{user.last_name.capitalize}, #{user.first_name.capitalize}" : is_first_name ? "#{user.first_name.capitalize}" : "#{user.last_name.capitalize}"
+
+    return user_name
   end
 
-  def format_role(roles, id)
+  def format_role(roles, id ,is_role_type = false, role_type = "")
     role = ""
 
     if (roles.any?) && (roles.key? (id))
       role = roles[id]
     end
+
+    if is_role_type && (!role.empty?) 
+      role = (role.include? (role_type)) ? "is_#{role_type}" : ""
+    end
+
     return role
   end
 
-  def format_action_row_id(id)
-    return "#{id}"
+  def format_action_row_id
+    return "<a href='#' class='grid-link-btn editUser'>Edit</a> | <a href='#' class='grid-link-btn deleteUser'>Delete</a>"
   end
 
-end
+  end

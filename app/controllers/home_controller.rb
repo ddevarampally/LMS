@@ -20,10 +20,12 @@ class HomeController < ApplicationController
 
         if @user
           @user.is_new_user = true  #to hide menu bar in change password screen
+          
           #assigning session values
           session_values(@user)
+          
           #assigning user roles
-          user_roles(@user.user_id)
+          get_user_roles(@user.user_id)
           
           redirect_to home_change_password_path
         else
@@ -40,10 +42,12 @@ class HomeController < ApplicationController
     @user = User.find_by(email_address: @email_address, password: @password, is_active: true)
     
     if @user && !@user.is_new_user
+      
       #assigning session values
       session_values(@user)
+      
       #assigning user roles
-      user_roles(@user.user_id)
+      get_user_roles(@user.user_id)
     
       redirect_to home_index_path
     else
@@ -132,7 +136,7 @@ private
       session[:current_is_new_user] = user.is_new_user
   end
 
-  def user_roles(user_id)
+  def get_user_roles(user_id)
     user_roles = UserRole.select("roles.role_name").joins(:role).where("user_roles.user_id = " + user_id.to_s)
     user_roles.each do |role|
       if role.role_name == ADMIN_ROLE

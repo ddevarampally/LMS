@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
   get 'users/index'
-  post 'users/edit'
   post 'users/delete'
   post 'users/add'
 
