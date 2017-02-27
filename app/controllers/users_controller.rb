@@ -47,12 +47,12 @@ class UsersController < ApplicationController
   def add
 
       is_user_saved_updated = false
-      is_edit_user = to_boolean(params[:is_edit_user])
+      is_edit_user = params[:is_edit_user]
 
       # Current Details of User
-      has_admin_role = to_boolean(params[:has_admin_role])
-      has_librarian_role = to_boolean(params[:has_librarian_role])
-      has_user_role = to_boolean(params[:has_user_role])
+      has_admin_role = params[:has_admin_role]
+      has_librarian_role = params[:has_librarian_role]
+      has_user_role = params[:has_user_role]
       edit_first_name = params[:first_name]
       edit_last_name = params[:last_name]
       edit_phone_number = params[:phone_number]
@@ -82,15 +82,15 @@ class UsersController < ApplicationController
 
           if @add_user.save
            
-            if has_admin_role
+            if has_admin_role == "true"
              user_roles.push(add_user_roles(@add_user.user_id,@roles,ADMIN_ROLE))
             end
 
-            if has_librarian_role
+            if has_librarian_role == "true"
               user_roles.push(add_user_roles(@add_user.user_id,@roles,LIBRARIAN_ROLE))
             end
 
-            if has_user_role
+            if has_user_role == "true"
                user_roles.push(add_user_roles(@add_user.user_id,@roles,USER_ROLE))
             end 
 
@@ -114,9 +114,9 @@ class UsersController < ApplicationController
         user_ids = []
         
         #  Existing details of User
-        is_exist_admin_role = to_boolean(params[:is_exist_admin_role])
-        is_exist_librarian_role = to_boolean(params[:is_exist_librarian_role])
-        is_exist_user_role = to_boolean(params[:is_exist_user_role])
+        is_exist_admin_role = params[:is_exist_admin_role]
+        is_exist_librarian_role = params[:is_exist_librarian_role]
+        is_exist_user_role = params[:is_exist_user_role]
 
         if is_exist_admin_role != has_admin_role
           
@@ -158,7 +158,7 @@ class UsersController < ApplicationController
          
           # Add record if current user has admin role else remove record         
          if user_ids.any?
-            @delete_user_roles = UserRole.where(user_id: id, role_id: user_ids).delete_all
+            @delete_user_roles = UserRole.where(role_id: user_ids).delete_all
          end
          
          if user_roles.any?
@@ -186,7 +186,6 @@ class UsersController < ApplicationController
       end
     end
 
-  private
   def add_user_roles(user_id, roles ,str_role,get_ids = false)
       user_roles = []
       if roles.any?
@@ -200,4 +199,5 @@ class UsersController < ApplicationController
       end
     return user_roles
   end
+
 end

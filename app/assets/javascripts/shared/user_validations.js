@@ -46,7 +46,7 @@ $(document).on('turbolinks:load',function(){
 
 	// Add User
 	$('#add-new-user').click(function(e){
-  		isCreateEditUser = false;
+  		isCreateEditUser = true;
   		resetValidation(errorElement);
 
   		$('#edit-first-name,#edit-last-name,#edit-email,#edit-phone').val('');
@@ -60,7 +60,7 @@ $(document).on('turbolinks:load',function(){
 	});
 
 	$('#btn_save_new_user').click(function(e){
-		
+		isCreateEditUser = true;
 		resetValidation(errorElement);
 
 		var hasErrors = false;
@@ -99,16 +99,12 @@ $(document).on('turbolinks:load',function(){
 					'has_admin_role' : adminRole.is(":checked"),
 					'has_librarian_role' : librarianRole.is(":checked"),
 					'has_user_role' : userRole.is(":checked"),
-					'is_edit_user': isCreateEditUser					
+					'is_edit_user': isCreateEditUser,
+					'user_id': userId,
+					'is_exist_admin_role':isExistsAdminRole,
+					'is_exist_librarian_role':isExistsLibrarianRole,
+					'is_exist_user_role':isExistsUserRole
 			}; 
-
-			if(isCreateEditUser){
-				
-				data['user_id'] = userId;
-				data['is_exist_admin_role'] = isExistsAdminRole;
-				data['is_exist_librarian_role'] = isExistsLibrarianRole;
-				data['is_exist_user_role'] = isExistsUserRole;
-			}
 
 			$.ajax({
 				url:"/users/add",
@@ -174,25 +170,21 @@ $(document).on('turbolinks:load',function(){
 		e.preventDefault();
 		userData = $(this).parents('tr');
 		var data = userGrid.row(userData).data();
-		
-		isCreateEditUser = true;
-		resetValidation(errorElement);
 
-		if(data != null){
-			firstName.val(data[6]);
-			lastName.val(data[7]);
-			emailAddress.val(data[2]);
-			phoneNumber.val(data[3]);
-			userId = data[0];
+		firstName.val(data[6]);
+		lastName.val(data[7]);
+		emailAddress.val(data[2]);
+		phoneNumber.val(data[3]);
+		userId = data[0];
 
-			isExistsAdminRole = data[8].includes("is_Admin");
-			isExistsLibrarianRole = data[9].includes("is_Librarian");
-			isExistsUserRole = data[10].includes("is_User");
+		var isExistsAdminRole = data[8].includes("is_Admin");
+		var isExistsLibrarianRole = data[9].includes("is_Librarian");
+		var isExistsUserRole = data[8].includes("is_User");
 
-			isCheckedAttr(adminRole,isExistsAdminRole);
-			isCheckedAttr(librarianRole,isExistsLibrarianRole);
-			isCheckedAttr(userRole,isExistsUserRole);
-		}
+		isCheckedAttr(adminRole,isExistsAdminRole);
+		isCheckedAttr(librarianRole,isExistsLibrarianRole);
+		isCheckedAttr(userRole,isExistsUserRole);
+
 		confirmationBox("EditUser",true);
 	});
 
