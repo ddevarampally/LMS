@@ -8,7 +8,7 @@ class UserDetailsDataTable
 	def as_json(options = {})
     {
       sEcho: params[:sEcho].to_i,
-      iTotalRecords: User.where(is_active: true).count,
+      iTotalRecords: users_query.count,
       iTotalDisplayRecords: details.total_entries,
       aaData: data
     }
@@ -55,8 +55,12 @@ private
     @details ||= fetch_details
   end
 
+  def users_query
+    users = User.where(is_active: true).where.not(email_address: DEFAULT_ADMIN_EMAIL)
+  end
+
   def fetch_details
-    @details = User.where(is_active: true).order("#{sort_column_user} #{sort_direction_user}")
+    @details = users_query.order("#{sort_column_user} #{sort_direction_user}")
     @details = @details.page(page_user).per_page(per_page_user)
    
     if params[:sSearch].present?

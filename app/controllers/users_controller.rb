@@ -59,8 +59,6 @@ class UsersController < ApplicationController
       edit_email_address = params[:email_address]
       updated_by_user = (session[:current_email_address].nil?) ? "" : session[:current_email_address]
 
-
-
       @roles = Role.all
       user_roles = []
 

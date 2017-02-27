@@ -1,5 +1,4 @@
 $(document).on('turbolinks:load',function(){
-
 	var userData =[];
 	var errorElement = $('#add-new-user-form-message');
 	var usersGrid = $("#users-grid");
@@ -64,25 +63,33 @@ $(document).on('turbolinks:load',function(){
 		isCreateEditUser = true;
 		resetValidation(errorElement);
 
-		if(firstName.val() == "" || lastName.val() == "" || emailAddress.val() == "" || !roles.find("input[type='checkbox']").is(':checked')){
-			if(firstName.val() == ""){
-				validation(errorElement,'Please Enter First Name');
-			}
-			
-			if(lastName.val() == ""){
-				validation(errorElement,'Please Enter Last Name');
-			}
+		var hasErrors = false;
 
-			if(emailAddress.val() == ""){
-				validation(errorElement,'Please Enter User Name');
-			}
-
-			if(!roles.find("input[type='checkbox']").is(':checked')){
-				validation(errorElement,'Please Select Atleast One Role');
-			}
-				return false;
+		if(firstName.val() == ""){
+			hasErrors = true;
+			validation(errorElement,'Please Enter First Name');
+		}			
+		if(lastName.val() == ""){
+			hasErrors = true;
+			validation(errorElement,'Please Enter Last Name');
 		}
-		else{
+		if(emailAddress.val() == ""){
+			hasErrors = true;
+			validation(errorElement,'Please Enter Email Address');
+		}
+		if(emailAddress.val() != "" && (!emailRegex(emailAddress.val()) || _emailDomains.indexOf(emailAddress.val().split('@')[1]) == -1)) {
+			hasErrors = true;
+			validation(errorElement,'Email Address format is not valid');
+		}
+		if(phoneNumber.val() != "" && !phoneNoRegex(phoneNumber.val())) {
+			hasErrors = true;
+			validation(errorElement,'Phone Number accepts digits only');
+		}
+		if(!roles.find("input[type='checkbox']").is(':checked')){
+			hasErrors = true;
+			validation(errorElement,'Please select atleast one Role');
+		}			
+		if(!hasErrors) {
 			
 			var data = {
 					'first_name' : firstName.val(),
@@ -108,7 +115,8 @@ $(document).on('turbolinks:load',function(){
 				
 				if(data != null){
 					if(data){
-						confirmationBox("CreateUser",true);
+						confirmationBox("CreateUser",false);
+						window.location = '/users/index';
 					}
 					else{
 						validation(errorElement,'Error Occured...');
@@ -131,29 +139,29 @@ $(document).on('turbolinks:load',function(){
 	});
 
 	$("#btn-delete-confirmation").click(function(){
-
+		
 		var id = userData.attr('id');
 
 		$.ajax({
-				url:"/users/delete",
-				type: "POST",
-				data: {"id": id.substring(id.length-2)},
-				dataType: "json"
-			}).done(function(data){
-				
-				if(data != null){
-					if(data){
-						confirmationBox("DeleteUser",false);
-					}
-					else{
-						validation(errorElement,'Error Occured...');
-					}
+			url:"/users/delete",
+			type: "POST",
+			data: {"id": id.substring(id.length-2)},
+			dataType: "json"
+		}).done(function(data){
+			
+			if(data != null){
+				if(data){
+					confirmationBox("DeleteUser",false);
+					window.location = '/users/index';
 				}
 				else{
 					validation(errorElement,'Error Occured...');
 				}
-				
-			});
+			}
+			else{
+				validation(errorElement,'Error Occured...');
+			}
+		});
 	});
 
 	// Update User
@@ -179,4 +187,5 @@ $(document).on('turbolinks:load',function(){
 
 		confirmationBox("EditUser",true);
 	});
+
 });
