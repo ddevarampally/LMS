@@ -14,5 +14,7 @@ module LMS
 
   	# Domain
     config.domain = 'capspayroll.com'
+
+    config.serve_static_assets = true
   end
 end
