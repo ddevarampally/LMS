@@ -40,7 +40,7 @@ function confirmationBox(confirmationType,isModal){
 }
 
 function isCheckedAttr(el, is_checked){
-	is_checked ? el.attr('checked','checked') : el.removeAttr('checked');
+	is_checked ? el.prop('checked', true) : el.removeAttr('checked');
 }	
 
 function emailRegex(value) {
