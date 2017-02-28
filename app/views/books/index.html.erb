@@ -25,17 +25,15 @@
             <td><%= book.user ? book.user.last_name + ',' + book.user.first_name : '' %></td>
             <td><%= book.borrowed_date.try(:strftime, '%B %d, %Y')  %></td>
             <td><%= book.due_date.try(:strftime, '%B %d, %Y') %></td>
-            <td> 
-                <%= button_to("Edit") %>
-                <%= button_to("Delete") %>
-                <%= button_to("Subscribe") %>
-            </td>            
+            <td> <%=link_to 'Edit', books_edit_path, {:class => "font-family"} %> | <%=link_to 'Delete', books_delete_path, {:class => "font-family"}  %>| <%=link_to 'Subscribe', books_subscribe_path, {:class => "font-family"}%> </td>           
         </tr> <br />
         <% end %>
     </tbody>    
 </table>
 
-<script type="text/javascript">
+<%= render 'Add_New_Book'%>
+
+<!-- <script type="text/javascript">
 
   $(document).ready(function() {  
       $('#book_management_grid').dataTable({
@@ -46,4 +44,4 @@
       $('#book_management_grid_wrapper').addClass('datatable-format')
    })
 
-</script>
+</script> ->

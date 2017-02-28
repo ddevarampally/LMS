@@ -5,6 +5,10 @@ Rails.application.routes.draw do
   post 'users/add'
 
   get 'books/index'
+  get 'books/edit'
+  get 'books/delete'
+  get 'books/subscribe'
+  post 'books/add'
   get 'books/activity_logs'
 
   get 'home/index'

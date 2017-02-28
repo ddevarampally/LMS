@@ -1,0 +1,67 @@
+<div id="add-new-book-modal" class="modal fade" aria-labelledby="add-new-book-modal-title" aria-hidden="false" role="dialog" tabindex="-1">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">				
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+				<h3 class="add-new-book-modal-title text-center">Add Book</h3>
+			</div>
+			<div class="modal-body">			
+				<form id="add-new-book-form" class="form-horizontal" method="post">
+					<div id="add-new-book-form-message" style="font-family: sans-serif;color: red;" ></div>
+					<div class="control-group">
+						<label class="control-label makeLabelMandatory"> Name of the Book </label>
+						<div class="controls">
+							<input type="text" name="edit-book-name" id="edit-book-name" maxlength="45" />
+						</div>
+					</div>
+						<!-- <div class="control-group">
+						<label class="control-label"> Upload Book Picture </label>
+						<div class="controls">
+							<input type="text" name="edit-book-picture" id="edit-book-picture"/>
+						</div>
+					</div> -->
+					<div class="control-group">
+						<label class="control-label makeLabelMandatory"> Description </label>
+						<div class="controls">
+							<input type="text" name="edit-description" id="edit-description" maxlength="80"/>
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label"> Author </label>
+						<div class="controls">
+							<input type="text" name="edit-author" id="edit-author" maxlength="30" />
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label"> Edition </label>
+						<div class="controls">
+							<input type="text" name="edit-edition" id="edit-edition" maxlength="25" />
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label"> Publication </label>
+						<div class="controls">
+							<input type="text" name="edit-publication" id="edit-publication" maxlength="20" />
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label"> Year of Publish </label>
+						<div class="controls">
+							<input type="text" name="edit-year-publish" id="edit-year-publish" maxlength="15" />
+						</div>
+					</div>
+					<!-- <div class="control-group">
+						<label class="control-label"> Upload Index </label>
+						<div class="controls">
+							<input type="text" name="edit-upload-index" id="edit-upload-index"/>
+						</div>
+					</div> -->					
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn" data-dismiss="modal">Close</button>
+				<button type="button" id="btn_save_new_book" class="btn btn-primary">Save</button>
+			</div>
+		</div>
+	</div>
+</div>
