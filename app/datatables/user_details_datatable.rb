@@ -110,5 +110,4 @@ private
   def format_action_row_id
     return "<a href='#' class='grid-link-btn editUser'>Edit</a> | <a href='#' class='grid-link-btn deleteUser'>Delete</a>"
   end
-
-  end
+end
