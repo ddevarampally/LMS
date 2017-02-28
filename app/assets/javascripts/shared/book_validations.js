@@ -1,7 +1,6 @@
 $(document).on('turbolinks:load',function(){
 
 	var errorElement = $('#add-new-book-form-message');
-	var bookModal = $('#add-new-book-modal');
 
 	if(!$( "#book_management_grid" ).hasClass("DataTable")) {
   		$('#book_management_grid').DataTable({
@@ -17,7 +16,7 @@ $(document).on('turbolinks:load',function(){
 
   		$('#edit-book-name, #edit-book-picture, #edit-description, #edit-author, #edit-edition, #edit-publication, #edit-year-publish, #edit-upload-index').val('');
 
-  		bookModal.modal('show');
+  		confirmationBox("AddBook",true);
 	});
 
 	$('#btn_save_new_book').click(function(e){
@@ -63,7 +62,6 @@ $(document).on('turbolinks:load',function(){
 			/*if(uploadindex.val() == ""){
 				validation(errorElement,'Upload index');
 			}*/
-			
 		}
 		else{
 			
@@ -87,7 +85,7 @@ $(document).on('turbolinks:load',function(){
 				
 				if(data != null){
 					if(data){
-						bookModal.modal('hide');
+						confirmationBox("AddBook",false);
 					}
 					else{
 						validation(errorElement,'Error Occured...');
@@ -116,6 +114,5 @@ $(document).on('turbolinks:load',function(){
 
 	  	$('#activity_logs_grid_wrapper').addClass('datatable-format')
 	}	
-
 });
 

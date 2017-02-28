@@ -39,12 +39,19 @@ function resetValidation(el){
 
 function confirmationBox(confirmationType,isModal){
 
-	var createUser = (confirmationType == "CreateUser");
-	var editUser = (confirmationType == "EditUser");
+	var createUser = "CreateUser";
+	var editUser = "EditUser";
+	var addBook = "AddBook";
+	var editBook = "EditBook";
 
-	if(createUser || editUser){
+	var isCreateUser = (confirmationType == createUser);
+	var isEditUser = (confirmationType == editUser);
+	var isAddBook =(confirmationType == addBook);
+	var isEditBook =(confirmationType == editBook);
+
+	if(isCreateUser || isEditUser){
 		if(isModal){
-			$(".add-new-user-modal-title").html( (createUser ? "Create " : "Edit ") + "User");
+			$(".add-new-user-modal-title").html( (isCreateUser ? "Create " : "Edit ") + "User");
 			$("#add-new-user-modal").modal('show');
 		}
 		else{
@@ -60,6 +67,15 @@ function confirmationBox(confirmationType,isModal){
 		}
 		else{
 			$("#delete-confirmation-modal").modal('hide');
+		}
+	}
+	else if(isAddBook || isEditBook){
+		if(isModal){
+			$(".add-new-book-modal-title").html( (isAddBook ? "Add " : "Edit ") + "Book");
+			$("#add-new-book-modal").modal('show');
+		}
+		else{
+			$("#add-new-book-modal").modal('hide');
 		}
 	}
 }
