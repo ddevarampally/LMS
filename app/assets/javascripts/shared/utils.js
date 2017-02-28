@@ -1,5 +1,30 @@
 var _emailDomains = ['capspayroll.com', 'castandcrew.com'];
 
+//route urls
+var _forgotPasswordUrl = "/home/forgot_password";
+var _usersIndexUrl = "/users/index";
+var _usersAddOrUpdateUrl = "/users/add";
+var _usersDeleteUrl = "/users/delete";
+
+
+$(document).on('turbolinks:load',function(){
+
+	//elements which should not allow space
+	$('#user_user_name, #user_password, #user_current_password, #user_new_password, #user_confirm_password').on('keypress', function(e) {
+		if (e.which == 32) {	//don't allow space
+	    	return false;
+		}
+	});
+
+	//elements which should not allow enter key
+	$('#email_address').on('keypress', function(e) {
+		if (e.which == 13) {	//if enter key pressed        	
+	    	return false;
+		}
+	});
+
+});
+
 function validation(el,errorMsg){
 	if(!el.find('ul').length > 0){
 		el.append('<ul></ul>');

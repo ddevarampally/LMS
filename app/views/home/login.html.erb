@@ -18,22 +18,3 @@
 <% end %>
 
 <%= render partial: "forgot_password" %>
-
-<script type="text/javascript">
-	
-$(document).ready(function() {	
-	$('#forgot-password-link').click(function() {
-		$('#forgot-password-form-message').empty();
-		$('#email_address').val('');
-
-		$('#forgot-password-modal').modal('show');
-	});
-
-	$('#user_user_name, #user_password').on('keypress', function(e) {
-    	if (e.which == 32) {	//don't allow space
-        	return false;
-    	}
-    });
-});
-
-</script>
