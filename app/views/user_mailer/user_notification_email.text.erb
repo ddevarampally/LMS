@@ -1,0 +1,23 @@
+Hello <%= "#{@user.last_name} #{@user.first_name}" %>,
+
+<% if @subject == WELCOME_MAIL_SUBJECT %>
+
+	You have successfully added to LMS.
+
+	To Login to the site, just follow this link: <%= @url %>
+
+
+
+	Logged In User Name: <%= @user.created_by %>
+<% end %>
+<% if @subject == FORGOT_PASSWORD_MAIL_SUBJECT %>
+	<% if !@user.user_name.nil? %>
+	Your username is: <%= @user.user_name %>
+	<% end %>
+	
+	To Reset Password, just follow this link: <%= @url %>
+
+
+	
+<% end %>
+	CAPS LMS Environment: <%= Rails.env.capitalize() %>

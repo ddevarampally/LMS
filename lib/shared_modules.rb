@@ -50,4 +50,9 @@ module Generate_encrypt_password
 
 		return password
 	end	
+
+	def to_boolean(val)
+    
+	    return !val.nil? ? (val == "true") ? true : false : false
+  	end
 end
