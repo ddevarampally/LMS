@@ -11,20 +11,3 @@
 	<tbody>		
 	</tbody>	
 </table>
-	
-<script type="text/javascript">
-
-  $(document).ready(function() {  
-  	if(!$( "#activity_logs_grid" ).hasClass("dataTable")) {
-  		$('#activity_logs_grid').dataTable({
-		  	sPaginationType: "full_numbers",
-		  	bJQueryUI: true,		  	
-		  	bProcessing: true,
-    		bServerSide: true,
-    		sAjaxSource: $('#activity_logs_grid').data('source')
-		})		
-	  	$('#activity_logs_grid_wrapper').addClass('datatable-format')
-	  }	
-   })
-
-</script>

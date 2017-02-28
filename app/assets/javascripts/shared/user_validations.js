@@ -111,7 +111,7 @@ $(document).on('turbolinks:load',function(){
 			}
 
 			$.ajax({
-				url:"/users/add",
+				url: _usersAddOrUpdateUrl,
 				type: "POST",
 				data: data,
 				dataType: "json"
@@ -120,7 +120,7 @@ $(document).on('turbolinks:load',function(){
 				if(data != null){
 					if(data){
 						confirmationBox("CreateUser",false);
-						window.location = '/users/index';
+						window.location = _usersIndexUrl;
 					}
 					else{
 						validation(errorElement,'Error Occured...');
@@ -147,7 +147,7 @@ $(document).on('turbolinks:load',function(){
 		var id = userData.attr('id').split('_')[1];
 
 		$.ajax({
-			url:"/users/delete",
+			url: _usersDeleteUrl,
 			type: "POST",
 			data: {"id": id},
 			dataType: "json"
@@ -156,7 +156,7 @@ $(document).on('turbolinks:load',function(){
 			if(data != null){
 				if(data){
 					confirmationBox("DeleteUser",false);
-					window.location = '/users/index';
+					window.location = _usersIndexUrl;
 				}
 				else{
 					validation(errorElement,'Error Occured...');
