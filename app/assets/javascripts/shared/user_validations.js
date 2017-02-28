@@ -144,12 +144,12 @@ $(document).on('turbolinks:load',function(){
 
 	$("#btn-delete-confirmation").click(function(){
 		
-		var id = userData.attr('id');
+		var id = userData.attr('id').split('_')[1];
 
 		$.ajax({
 			url:"/users/delete",
 			type: "POST",
-			data: {"id": id.substring(id.length-2)},
+			data: {"id": id},
 			dataType: "json"
 		}).done(function(data){
 			
