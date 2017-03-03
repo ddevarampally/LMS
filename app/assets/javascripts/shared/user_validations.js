@@ -145,7 +145,7 @@ $(document).on('turbolinks:load',function(){
 	$("#btn-delete-confirmation").click(function(){
 		
 		if ($(".delete-confirmation-modal-title").html().includes('User')) {
-			var id = data.attr('id').split('_')[1];
+			var id = userData.attr('id').split('_')[1];
 			data = {"id": id}
 			fnConfirmation(data,_usersDeleteUrl,_usersIndexUrl,"DeleteUser");
 		}
