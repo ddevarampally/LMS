@@ -161,3 +161,11 @@ a.grid-link
 {
      color: #0088CC !important;
 }
+
+.select-format {
+    font-size: 13px;
+    height: 26px;
+    line-height: 26px;
+    padding: 2px 3px;
+    width: 176px;
+}

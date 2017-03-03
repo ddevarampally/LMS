@@ -144,28 +144,11 @@ $(document).on('turbolinks:load',function(){
 
 	$("#btn-delete-confirmation").click(function(){
 		
-		var id = userData.attr('id').split('_')[1];
-
-		$.ajax({
-			url: _usersDeleteUrl,
-			type: "POST",
-			data: {"id": id},
-			dataType: "json"
-		}).done(function(data){
-			
-			if(data != null){
-				if(data){
-					confirmationBox("DeleteUser",false);
-					window.location = _usersIndexUrl;
-				}
-				else{
-					validation(errorElement,'Error Occured...');
-				}
-			}
-			else{
-				validation(errorElement,'Error Occured...');
-			}
-		});
+		if ($(".delete-confirmation-modal-title").html().includes('User')) {
+			var id = data.attr('id').split('_')[1];
+			data = {"id": id}
+			fnConfirmation(data,_usersDeleteUrl,_usersIndexUrl,"DeleteUser");
+		}
 	});
 
 	// Update User

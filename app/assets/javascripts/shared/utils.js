@@ -2,10 +2,15 @@ var _emailDomains = ['capspayroll.com', 'castandcrew.com'];
 
 //route urls
 var _forgotPasswordUrl = "/home/forgot_password";
+
 var _usersIndexUrl = "/users/index";
 var _usersAddOrUpdateUrl = "/users/add";
 var _usersDeleteUrl = "/users/delete";
 
+var _booksIndexUrl = "/books/index";
+var _booksAddUrl = "/books/add";
+var _booksDeleteUrl = "/books/delete";
+var _bookSubscribeUrl = "/books/subscribe";
 
 $(document).on('turbolinks:load',function(){
 
@@ -22,7 +27,6 @@ $(document).on('turbolinks:load',function(){
 	    	return false;
 		}
 	});
-
 });
 
 function validation(el,errorMsg){
@@ -49,34 +53,29 @@ function confirmationBox(confirmationType,isModal){
 	var isAddBook =(confirmationType == addBook);
 	var isEditBook =(confirmationType == editBook);
 
+	var deleteModalForm = $("#delete-confirmation-form");
+	var deleteModalTitle = $(".delete-confirmation-modal-title");
+
 	if(isCreateUser || isEditUser){
 		if(isModal){
 			$(".add-new-user-modal-title").html( (isCreateUser ? "Create " : "Edit ") + "User");
-			$("#add-new-user-modal").modal('show');
 		}
-		else{
-			$("#add-new-user-modal").modal('hide');
-		}
+		$("#add-new-user-modal").modal(isModal ? 'show' : 'hide');
 	}
 	else if(confirmationType == "DeleteUser"){
-		if(isModal){
-
-			$(".delete-confirmation-modal-title").html("Delete User");
-			$("#delete-confirmation-form").html("Are you sure, You want to delete User?");
-			$("#delete-confirmation-modal").modal('show');
-		}
-		else{
-			$("#delete-confirmation-modal").modal('hide');
-		}
+		fnModalPopUp($("#delete-confirmation-modal"),deleteModalTitle,deleteModalForm,"Delete User","Are you sure, You want to delete User....",isModal);
 	}
 	else if(isAddBook || isEditBook){
 		if(isModal){
 			$(".add-new-book-modal-title").html( (isAddBook ? "Add " : "Edit ") + "Book");
-			$("#add-new-book-modal").modal('show');
 		}
-		else{
-			$("#add-new-book-modal").modal('hide');
-		}
+		$("#add-new-book-modal").modal(isModal ? 'show' : 'hide');
+	}
+	else if(confirmationType == "DeleteBook"){
+		fnModalPopUp($("#delete-confirmation-modal"),deleteModalTitle,deleteModalForm,"Delete Book","Are you sure, You want to delete Book....",isModal);
+	}
+	else if(confirmationType == "SubscribeBook"){
+		fnModalPopUp($("#book-subscribe-modal"),$('.book-subscribe-modal-title'),$("#book-subscribe-form"),"Subscribe Book","You will be Notified, when book is available... ",isModal);
 	}
 }
 
@@ -98,4 +97,36 @@ function phoneNoRegex(value) {
 		return true;
 	}
 	return false;
+}
+
+function fnConfirmation(data,postUrl,navigateUrl,title){
+
+	$.ajax({
+		url: postUrl,
+		type: "POST",
+		data: data,
+		dataType: "json"
+	}).done(function(data){
+		
+		if(data != null){
+			if(data){
+				confirmationBox(title,false);
+				window.location = navigateUrl;
+			}
+			else{
+				alert('Error Occured...');
+			}
+		}
+		else{
+			alert('Error Occured...');
+		}
+	});
+}
+
+function fnModalPopUp(el,title,form,titleText,formText,isModalOpened){
+	if(isModalOpened){
+			title.html(titleText);
+			form.html(formText);
+		}
+	el.modal(isModalOpened ? 'show' : 'hide');
 }

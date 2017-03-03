@@ -11,3 +11,9 @@ WELCOME_MAIL_SUBJECT = "Welcome to LMS"
 FORGOT_PASSWORD_MAIL_SUBJECT = "LMS - Forgot Password"
 
 DEFAULT_ADMIN_EMAIL = "DDevarampally@capspayroll.com"
+
+# Page Types
+FRONT_PAGE = "FrontPage"
+BACK_PAGE = "BackPage"
+OTHER_PAGE = "OtherPage"
+INDEX_PAGE = "IndexPage"

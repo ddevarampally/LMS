@@ -5,6 +5,7 @@ class UsersController < ApplicationController
  	before_action :authenticate_user
 
   include Generate_encrypt_password
+  include Convert_to_boolean
 
   def index
   	respond_to do |format|
@@ -110,7 +111,7 @@ class UsersController < ApplicationController
       
       else
 
-        id = params[:user_id]
+        id = params[:user_id].to_i
         user_ids = []
         
         #  Existing details of User

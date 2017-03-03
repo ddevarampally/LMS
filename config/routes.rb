@@ -4,9 +4,10 @@ Rails.application.routes.draw do
   post 'users/add'
 
   get 'books/index'
-  get 'books/edit'
-  get 'books/delete'
-  get 'books/subscribe'
+  post 'books/image_upload'
+  post 'books/delete_uploaded_images'
+  post 'books/delete'
+  post 'books/subscribe'
   post 'books/add'
   get 'books/activity_logs'
 

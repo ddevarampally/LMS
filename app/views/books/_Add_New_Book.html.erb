@@ -8,18 +8,33 @@
 			<div class="modal-body">			
 				<form id="add-new-book-form" class="form-horizontal" method="post">
 					<div id="add-new-book-form-message" style="font-family: sans-serif;color: red;" ></div>
+
+					<div class="control-group" id="book-page-type-section">
+						<label class="control-label"> Select Page Type </label>
+						<div class="controls">
+							<select name="sel-page-type" id="sel-page-type" class="select-format"> 
+								<option value=""> </option>
+								<option value="FrontPage"> Front Page </option>
+								<option value="BackPage"> Back Page </option>
+								<option value="OtherPages">Other Pages </option>
+								<option value="IndexPages"> Index Pages </option>
+							</select> 
+						</div>
+					</div>
+					<div class="control-group" id="book-picture-section" hidden="hidden">
+						<label class="control-label"> Upload Book Picture </label>
+						<div class="controls">
+							<input type="file" name="edit-book-picture[]" id="edit-book-picture"/>
+						</div>
+					</div>
+					<div id='images-to-upload'>
+					</div>
 					<div class="control-group">
 						<label class="control-label makeLabelMandatory"> Name of the Book </label>
 						<div class="controls">
-							<input type="text" name="edit-book-name" id="edit-book-name" maxlength="45" />
+							<input type="text" name="edit-book-name" id="edit-book-name" maxlength="45"/>
 						</div>
 					</div>
-						<!-- <div class="control-group">
-						<label class="control-label"> Upload Book Picture </label>
-						<div class="controls">
-							<input type="text" name="edit-book-picture" id="edit-book-picture"/>
-						</div>
-					</div> -->
 					<div class="control-group">
 						<label class="control-label makeLabelMandatory"> Description </label>
 						<div class="controls">
@@ -50,12 +65,6 @@
 							<input type="text" name="edit-year-publish" id="edit-year-publish" maxlength="15" />
 						</div>
 					</div>
-					<!-- <div class="control-group">
-						<label class="control-label"> Upload Index </label>
-						<div class="controls">
-							<input type="text" name="edit-upload-index" id="edit-upload-index"/>
-						</div>
-					</div> -->					
 				</form>
 			</div>
 			<div class="modal-footer">
