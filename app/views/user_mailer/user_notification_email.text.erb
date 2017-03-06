@@ -20,4 +20,14 @@ Hello <%= "#{@user.last_name} #{@user.first_name}" %>,
 
 	
 <% end %>
+<% if @subject == "Testing Book Remainder" %>
+	<% if !@user.user_name.nil? %>
+	Your username is: <%= @user.user_name %>
+	<% end %>
+	
+	Testing Book Remainders.........
+
+	
+<% end %>
+
 	CAPS LMS Environment: <%= Rails.env.capitalize() %>

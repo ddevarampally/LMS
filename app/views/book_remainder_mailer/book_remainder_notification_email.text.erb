@@ -1,0 +1,10 @@
+Hello <%= "#{ @book_remainder.user.last_name} #{@book_remainder.user.first_name}" %> ,
+	
+  Name of the Book: <%= "#{@book_remainder.book_name}" %>
+	
+  Name of Author: <%= "#{@book_remainder.author_name}" %>
+
+	Return Date of above mentioned book is on <%= "#{@book_remainder.due_date.to_date}" %>
+		
+
+CAPS LMS Environment: <%= Rails.env.capitalize() %>

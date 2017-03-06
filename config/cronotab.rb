@@ -11,5 +11,5 @@
 #   end
 # end
 
- Crono.perform(BookRemainderJob).every 3.seconds
+ Crono.perform(BookRemainderJob).every 1.day, at: {hour: 09, min: 30}
 
