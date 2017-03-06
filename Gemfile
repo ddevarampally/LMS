@@ -47,6 +47,9 @@ gem 'jbuilder', '~> 2.5'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
+# Use crono gem for Job Schedule
+gem 'crono' 
+
 gem 'aescrypt'
 
 group :development, :test do

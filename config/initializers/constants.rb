@@ -10,6 +10,9 @@ AESCRYPT_SECRET_PASSWORD ="(@ps@123"
 WELCOME_MAIL_SUBJECT = "Welcome to LMS"
 FORGOT_PASSWORD_MAIL_SUBJECT = "LMS - Forgot Password"
 
+BOOK_SUBSCRIPTION_MAIL_SUBJECT = "Book Subscription"
+BOOK_REMAINDER_MAIL_SUBJECT = "Book Remainder"
+
 DEFAULT_ADMIN_EMAIL = "DDevarampally@capspayroll.com"
 
 # Page Types
