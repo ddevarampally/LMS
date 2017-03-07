@@ -8,9 +8,15 @@ class UsersController < ApplicationController
   include Convert_to_boolean
 
   def index
+    @generic_info = GenericInfo.new
+    @generic_info.current_email_address = session[:current_email_address]
+    @generic_info.is_admin = session[:is_admin]
+    @generic_info.is_librarian = session[:is_librarian]
+    @generic_info.is_user = session[:is_user]
+
   	respond_to do |format|
       format.html
-      format.json { render json: UserDetailsDataTable.new(view_context) }
+      format.json { render json: UserDetailsDataTable.new(view_context, @generic_info) }
     end
   end
 
