@@ -50,7 +50,7 @@ $(document).on('turbolinks:load',function(){
 					if(resp) {
 						forgotPwdFormMsg.html('Mail has been sent successfully');
 						setTimeout(function() {
-							forgorPwdModal.modal('hide');
+							forgotPwdModal.modal('hide');
 						},2000)	
 					}
 					else {
