@@ -12,11 +12,8 @@ class BookRemainderJob < ApplicationJob
             BookRemainderMailer.book_remainder_notification_email(book).deliver_now
 		end
 
-		# Below code is to test whether the Job Scheduler is working or not.
-		book_user = User.where(email_address: "vnooli@capspayroll.com")
-
-		if book_user.any? 
-			UserMailer.user_notification_email(book_user,"Testing Book Remainder").deliver_now
+		if borrowed_books.any? 
+			puts 'Job Schedule is runnning'
 		end
 
 		puts 'Book Remainder Job Schedule Ended'
