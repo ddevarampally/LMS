@@ -11,6 +11,10 @@
 #   end
 # end
 
+require 'rake'
+# Be sure to change AppName to your application name!
+Rails.application.class.load_tasks
+
  Crono.perform(BookRemainderJob).every 1.minute
 
  
