@@ -37,13 +37,15 @@
 			            <div class="controls">
 			                <h5 style="margin:3px !important" class="span2 text-center"> Role</h5>
 			                <div style="border:1px solid;width:45%;background-color:#f5f5f5;padding:5px;">
-			                    <div id="admin-section">
-			                        <label class="checkbox-inline">
-			                            <input type="checkbox" id="edit-add-adminRole">
-			                            Admin Role
-			                        </label><br>
-			                    </div>
-			                    <div id="librarian-section">
+				                <% if !generic_info.is_admin.nil? && generic_info.is_admin %>
+					                <div id="admin-section">
+				                        <label class="checkbox-inline">
+				                            <input type="checkbox" id="edit-add-adminRole">
+				                            Admin Role
+				                        </label><br>
+				                    </div>						                	
+				                <% end %>
+		                    	<div id="librarian-section">
 			                        <label class="checkbox-inline">
 			                            <input type="checkbox" id="edit-add-librarianRole">
 			                            Librarian Role
@@ -54,8 +56,8 @@
 			                            <input type="checkbox" id="edit-add-userRole">
 			                            User Role
 			                        </label>
-			                    </div>
-			                </div>
+			                    </div>        
+		                	</div>
 			            </div>
         			</div>
 				</form>
