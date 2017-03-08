@@ -12,7 +12,7 @@ class BookRemainderJob < ApplicationJob
             BookRemainderMailer.book_remainder_notification_email(book).deliver_now
 		end
 
-		if borrowed_books.any? 
+		if !borrowed_books.any? 
 			puts 'Job Schedule is runnning'
 		end
 
