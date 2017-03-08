@@ -109,16 +109,19 @@ function fnConfirmation(data,postUrl,navigateUrl,title){
 	}).done(function(data){
 		
 		if(data != null){
-			if(data){
+			if(data == true || data == "Success"){
 				confirmationBox(title,false);
 				window.location = navigateUrl;
 			}
+			else if(data != "") {
+				$("#delete-confirm-modal-message").html(data);
+			}
 			else{
-				alert('Error Occured...');
+				$("#delete-confirm-modal-message").html("Error Occured...");
 			}
 		}
 		else{
-			alert('Error Occured...');
+			$("#delete-confirm-modal-message").html("Error Occured...");
 		}
 	});
 }

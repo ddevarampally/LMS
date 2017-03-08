@@ -41,12 +41,12 @@ $(document).on('turbolinks:load',function(){
 	var adminRole = $('#edit-add-adminRole');
 	var librarianRole = $('#edit-add-librarianRole');
 	var userRole = $('#edit-add-userRole');
-	var isCreateEditUser = false;
+	var isEditUser = false;
 	var isExistsAdminRole = isExistsLibrarianRole = isExistsUserRole = false;
 
 	// Add User
 	$('#add-new-user').click(function(e){
-  		isCreateEditUser = false;
+  		isEditUser = false;
   		resetValidation(errorElement);
 
   		$('#edit-first-name,#edit-last-name,#edit-email,#edit-phone').val('');
@@ -99,10 +99,10 @@ $(document).on('turbolinks:load',function(){
 					'has_admin_role' : adminRole.is(":checked"),
 					'has_librarian_role' : librarianRole.is(":checked"),
 					'has_user_role' : userRole.is(":checked"),
-					'is_edit_user': isCreateEditUser					
+					'is_edit_user': isEditUser					
 			}; 
 
-			if(isCreateEditUser){
+			if(isEditUser){
 				
 				data['user_id'] = userId;
 				data['is_exist_admin_role'] = isExistsAdminRole;
@@ -115,12 +115,27 @@ $(document).on('turbolinks:load',function(){
 				type: "POST",
 				data: data,
 				dataType: "json"
-			}).done(function(data){
+			}).done(function(data) {
 				
-				if(data != null){
-					if(data){
-						confirmationBox("CreateUser",false);
-						window.location = _usersIndexUrl;
+				if(data != null) {
+					if(data.error_message == "Success") {	
+						validation(errorElement, 'User saved successfully');		
+						setTimeout(function() {
+							confirmationBox("CreateUser", false);
+							window.location = _usersIndexUrl;
+						}, 2000);									
+					}
+					else if(data.error_message == "Email Exist") {	
+						validation(errorElement, 'Email is already exist');		
+					}
+					else if(data.error_message == "Inactive Email Exist") {	
+						validation(errorElement, 'Email is already exist and not in active status, save to continue with existing data');	
+						userId = data.user_id;
+						$('#edit-first-name').val(data.first_name);	
+						$('#edit-last-name').val(data.last_name);	
+						$('#edit-phone').val(data.phone_number);							
+						isExistsAdminRole = isExistsLibrarianRole = isExistsUserRole = false;
+						isEditUser = true;
 					}
 					else{
 						validation(errorElement,'Error Occured...');
@@ -158,7 +173,7 @@ $(document).on('turbolinks:load',function(){
 		userData = $(this).parents('tr');
 		var data = userGrid.row(userData).data();
 		
-		isCreateEditUser = true;
+		isEditUser = true;
 		resetValidation(errorElement);
 
 		if(data != null){

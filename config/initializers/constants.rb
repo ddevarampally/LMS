@@ -20,3 +20,7 @@ FRONT_PAGE = "FrontPage"
 BACK_PAGE = "BackPage"
 OTHER_PAGE = "OtherPage"
 INDEX_PAGE = "IndexPage"
+
+#Book Statuses
+BOOK_BORROWED = "Borrowed"
+BOOK_RETURNED = "Returned"
