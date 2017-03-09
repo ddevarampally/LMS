@@ -81,23 +81,27 @@ $(document).on('turbolinks:load',function(){
 				renderData.push(e.target.result);
 				var template = '<img src="'+ e.target.result +'"style="width:50px;"> &nbsp;';
 				uploadFiles.append(template);
-
+				
 				if((files.length == renderData.length) && selectedOptionVal != ""){
 					
 					var data ={
 						'page_type': selectedOptionVal,
-						'uploaded_images': renderData
+						'uploaded_images': renderData,
+						'existing_ids': bookPageIds
 					}
 
 					$.ajax({
-						url:"/books/image_upload",
+						url: _bookUploadImageUrl,
 						type: "POST",
 						data: data,
 						dataType: "json"
 					}).done(function(data){
+						
 						if(data!=null){
 							if (data.result) {
-								bookPageIds = data.ids[0]
+								if(data.ids.length > 0) {
+									bookPageIds = data.ids;
+								}
 							} else {
 								validation(errorElement,'Error Occured...');
 							}
@@ -112,9 +116,10 @@ $(document).on('turbolinks:load',function(){
 	});
 
 	$("#add-new-book-modal").on('hide.bs.modal',function(){
+		
 		if(bookPageIds.length > 0){
 			$.ajax({
-				url:"/books/delete_uploaded_images",
+				url: _bookDeleteImageUrl,
 				type: "POST",
 				data: {'ids': bookPageIds},
 				dataType: "json"
@@ -157,6 +162,7 @@ $(document).on('turbolinks:load',function(){
   		$('#sel-page-type').trigger('change');
   		$('#edit-book-name, #edit-book-picture, #edit-description, #edit-author, #edit-edition, #edit-publication, #edit-year-publish, #edit-upload-index').val('');
 
+		$('#book-page-type-section').prop('hidden',false);
   		confirmationBox("AddBook",true);
 	});
 
@@ -180,7 +186,7 @@ $(document).on('turbolinks:load',function(){
 		 	yearpublish.val(data[12]);
 		}
 
-		$('#book-page-type-section').prop('hidden',true);
+		$('#book-page-type-section,#book-picture-section').prop('hidden',true);
 		confirmationBox("EditBook",true);
 		bookPageIds = [];
 	});
@@ -189,27 +195,16 @@ $(document).on('turbolinks:load',function(){
 				
 		resetValidation(errorElement);
 
-		if(bookname.val() == "" || description.val() == "" || author.val() == "" || edition.val() == "" || publication.val() == "" || yearpublish.val() == ""){
+		if(bookname.val() == "" || description.val() == ""){
 			if(bookname.val() == ""){
 				validation(errorElement,'Please Enter Book Name');
 			}
 			if(description.val() == ""){
 				validation(errorElement,'Please Enter Description');
-			}
-			if(author.val() == ""){
-				validation(errorElement,'Please Enter Author');
-			}
-			
-			if(edition.val() == ""){
-				validation(errorElement,'Please Enter Edition');
-			}
-
-			if(publication.val() == ""){
-				validation(errorElement,'Please Enter Publication');
-			}
-			if(yearpublish.val() == ""){
-				validation(errorElement,'Please Enter Publish year');
-			}
+			}	
+			if(yearpublish.val() != "" && !phoneNoRegex(yearpublish.val())) {
+			validation(errorElement,'Publication Year accepts digits only');
+			}		
 		}
 		else{
 			

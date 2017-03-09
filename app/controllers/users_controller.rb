@@ -42,7 +42,7 @@ class UsersController < ApplicationController
                 @user.updated_by = session[:current_email_address]
               end
 
-              if @user.update_attributes(is_active: false)
+              if @user.update_attributes(is_active: false, updated_date: DateTime.now)
                  error_message = "Success"
                end 
             end

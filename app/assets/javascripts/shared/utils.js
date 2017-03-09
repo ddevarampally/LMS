@@ -11,6 +11,8 @@ var _booksIndexUrl = "/books/index";
 var _booksAddUrl = "/books/add";
 var _booksDeleteUrl = "/books/delete";
 var _bookSubscribeUrl = "/books/subscribe";
+var _bookUploadImageUrl = "/books/image_upload";
+var _bookDeleteImageUrl = "/books/delete_uploaded_images";
 
 $(document).on('turbolinks:load',function(){
 
@@ -42,7 +44,7 @@ function resetValidation(el){
 }
 
 function confirmationBox(confirmationType,isModal){
-
+	
 	var createUser = "CreateUser";
 	var editUser = "EditUser";
 	var addBook = "AddBook";
@@ -64,6 +66,7 @@ function confirmationBox(confirmationType,isModal){
 	}
 	else if(confirmationType == "DeleteUser"){
 		fnModalPopUp($("#delete-confirmation-modal"),deleteModalTitle,deleteModalForm,"Delete User","Are you sure, You want to delete User....",isModal);
+		resetValidation($("#delete-confirm-modal-message"));
 	}
 	else if(isAddBook || isEditBook){
 		if(isModal){
@@ -73,6 +76,7 @@ function confirmationBox(confirmationType,isModal){
 	}
 	else if(confirmationType == "DeleteBook"){
 		fnModalPopUp($("#delete-confirmation-modal"),deleteModalTitle,deleteModalForm,"Delete Book","Are you sure, You want to delete Book....",isModal);
+		resetValidation($("#delete-confirm-modal-message"));
 	}
 	else if(confirmationType == "SubscribeBook"){
 		fnModalPopUp($("#book-subscribe-modal"),$('.book-subscribe-modal-title'),$("#book-subscribe-form"),"Subscribe Book","You will be Notified, when book is available... ",isModal);
@@ -112,12 +116,12 @@ function fnConfirmation(data,postUrl,navigateUrl,title){
 			if(data == true || data == "Success"){
 				confirmationBox(title,false);
 				window.location = navigateUrl;
-			}
-			else if(data != "") {
-				$("#delete-confirm-modal-message").html(data);
-			}
-			else{
+			}			
+			else if(data == false){
 				$("#delete-confirm-modal-message").html("Error Occured...");
+			}
+			else {
+				$("#delete-confirm-modal-message").html(data);
 			}
 		}
 		else{
