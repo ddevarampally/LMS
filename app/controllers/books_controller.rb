@@ -7,9 +7,14 @@ class BooksController < ApplicationController
     include Convert_to_boolean
 
   def index
+    @generic_info = GenericInfo.new
+    @generic_info.is_admin = session[:is_admin]
+    @generic_info.is_librarian = session[:is_librarian]
+    @generic_info.is_user = session[:is_user]  
+
   	respond_to do |format|
       format.html
-      format.json { render json: BookDetailsDataTable.new(view_context) }
+      format.json { render json: BookDetailsDataTable.new(view_context, @generic_info) }
     end
   end
 
@@ -64,7 +69,7 @@ class BooksController < ApplicationController
             
             @book = Book.find(id)
 
-            if @book.update_attributes(book_name: name_of_book, description: book_description, author_name: book_author, edition: book_edition, publication_name: book_publication_name, publication_year:book_publication_year, updated_by: updated_by_user)
+            if @book.update_attributes(book_name: name_of_book, description: book_description, author_name: book_author, edition: book_edition, publication_name: book_publication_name, publication_year:book_publication_year, updated_by: updated_by_user, updated_date: DateTime.now)
               is_saved = true
             end 
          end
@@ -88,7 +93,7 @@ class BooksController < ApplicationController
             @book.updated_by = session[:current_email_address]
           end
 
-          if @book.update_attributes(is_active: false)
+          if @book.update_attributes(is_active: false, updated_date: DateTime.now)
              
              ActiveRecord::Base.transaction do
                
@@ -112,8 +117,10 @@ class BooksController < ApplicationController
     
       images = params[:uploaded_images]
       type_of_page = params[:page_type]
-      is_saved = false
+      existing_ids = params[:existing_ids].nil? ? [] : Array(params[:existing_ids])
       ids = []
+      is_saved = false  
+      is_update = false
 
       if images != nil && !images.empty?
         
@@ -123,19 +130,36 @@ class BooksController < ApplicationController
         if !pages.empty?
                 
           ActiveRecord::Base.transaction do
-           
-            @add_pages = BookPage.create!(pages)
+            if existing_ids.any?
+              existing_ids.each do |id|
+                ids.push(id.to_i)
+              end
+              if type_of_page == FRONT_PAGE || type_of_page == BACK_PAGE
+                @book_page = BookPage.where(book_page_id: ids, book_id: nil, page_type: type_of_page)
 
-            @add_pages.each do |added_page|
-
-              id_page = added_page.map { |x| x.book_page_id }
-              ids.push(id_page) 
+                if !@book_page.empty?
+                  @book_page.first.update_attributes(page_content: images[0])
+                  is_update = true
+                else
+                  @book_pages = BookPage.create!(pages)
+                end
+              else
+                @book_pages = BookPage.create!(pages)
+              end              
+            else
+              @book_pages = BookPage.create!(pages)
+            end
+            if !is_update
+              @book_pages.each do |added_page|               
+                added_page.map { |x| 
+                  ids.push(x.book_page_id)                  
+                }               
+              end
             end
             is_saved = true
          end
         end
-      end  
-
+      end    
       respond_to do |format|
         format.html { render "index" }
         format.json { render json: {result:is_saved, ids: ids} }

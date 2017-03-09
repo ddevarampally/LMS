@@ -1,44 +1,32 @@
 class BookDetailsDataTable
 	delegate :params, to: :@view
 
-  attr_accessor :book_status
-
-	def initialize(view)
+	def initialize(view, generic_info)
     	@view = view
+      @book_status = nil
+      @generic_info = generic_info    
+      @book_pictures = {}  
+      @total_records = 0
+      @total_display_records = 0
 	end
 
 	def as_json(options = {})
     {
       sEcho: params[:sEcho].to_i,
-      iTotalRecords: books_query.count,
-      iTotalDisplayRecords: book_details.total_entries,
-      aaData: book_data
+      aaData: book_data,
+      iTotalRecords: @total_records,
+      iTotalDisplayRecords: @total_display_records      
     }
 	end
 
 private
   
-  def book_data
-
-    book_ids = book_details.pluck('book_id')
-    @book_pictures ={}
-
-    if book_ids.any? 
-        @pages = BookPage.where(book_id: book_ids, page_type: FRONT_PAGE)
-
-        @pages.each  do |page|
-            
-            if !@book_pictures.key? (page.book_id)
-                @book_pictures[page.book_id] = page.page_content
-            end
-        end   
-    end
-
+  def book_data   
     book_details.map do |book_detail|
       [
         book_detail.book_id, 
         book_detail.book_name,
-        format_book_picture(book_detail.book_id,@book_pictures),
+        format_book_picture(book_detail.book_id, @book_pictures),
         book_detail.description,
         format_book_status(book_detail),
         format_borrowed_user_name(book_detail),
@@ -58,16 +46,34 @@ private
   end
 
   def books_query
-    books = Book.includes(:user,:status).where(is_active: true)
+    @books = Book.includes(:user,:status).where(is_active: true)
+
+    book_ids = @books.pluck('book_id')    
+    if book_ids.any? 
+        @pages = BookPage.where(book_id: book_ids, page_type: FRONT_PAGE)
+
+        @pages.each  do |page|
+            
+            if !@book_pictures.key? (page.book_id)
+                @book_pictures[page.book_id] = page.page_content
+            end
+        end   
+    end
+    @books
   end
 
   def fetch_book_details
     @details = books_query.order("#{sort_column_book} #{sort_direction_book}")
     @details = @details.page(page_book).per_page(per_page_book)
    
+    @total_records = @details.count
+
     if params[:sSearch].present?
       @details = @details.where("lower(book_name) like :search or lower(description) like :search", search: "%#{(params[:sSearch]).downcase}%")
     end
+    
+    @total_display_records = @details.count
+
     @details
   end
 
@@ -94,12 +100,11 @@ private
   end
 
   def format_book_status(book)
-    book_status = (book.status_id != nil) ? book.status.status_name : "Available"
-    return book_status
+    @book_status = (book.status_id == nil) ? BOOK_AVAILABLE : book.status.status_name
+    return @book_status
   end
 
   def format_book_picture(id,book_pictures)
-    image = ""
 
     if (book_pictures.any?) && (book_pictures.key? (id))
       role = '<img src="'+ book_pictures[id] +'" style="width:50px;">'
@@ -108,13 +113,13 @@ private
   end
 
   def format_book_action
-
-    url = "<a href='#' class='grid-link-btn editBook'>Edit</a> | <a href='#' class='grid-link-btn deleteBook'>Delete</a>"
-
-    if book_status == "Borrowed"
-      url = "#{url} | <a href='#' class='grid-link-btn subscribeBook'>Subscribe</a>"  
+    url = ""
+    if (@generic_info.is_admin || @generic_info.is_librarian) && @book_status != BOOK_BORROWED
+      url = "<a href='#' class='grid-link-btn editBook'>Edit</a> | <a href='#' class='grid-link-btn deleteBook'>Delete</a>"
+    end 
+    if !@generic_info.is_user.nil? && @generic_info.is_user && @book_status == BOOK_BORROWED
+      url = url == "" ? "<a href='#' class='grid-link-btn subscribeBook'>Subscribe</a>" : "#{url} | <a href='#' class='grid-link-btn subscribeBook'>Subscribe</a>"  
     end
-
     return  url
   end
 

@@ -22,5 +22,6 @@ OTHER_PAGE = "OtherPage"
 INDEX_PAGE = "IndexPage"
 
 #Book Statuses
+BOOK_AVAILABLE = "Available"
 BOOK_BORROWED = "Borrowed"
 BOOK_RETURNED = "Returned"

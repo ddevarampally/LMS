@@ -1,6 +1,8 @@
 <h2 class="page-heading">Book Management</h2>
 <div class="span3 pull-right text-center" style="margin-bottom:10px; margin-right:2.7%;">
-	<button id="add-new-book" class="btn btn-primary font-family" style="width: 120px; color:white;" >Add Book</button>
+    <% if @generic_info.is_admin || @generic_info.is_librarian  %>
+	   <button id="add-new-book" class="btn btn-primary font-family" style="width: 120px; color:white;" >Add Book</button>
+    <% end %>
 </div>
 <table id="book-management-grid" class="display" data-source="<%= books_index_url(format: "json") %>" cellspacing="0" width="100%">
     <thead>
