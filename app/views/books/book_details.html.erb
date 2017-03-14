@@ -1,0 +1,35 @@
+<h2 class="page-heading">Book Details</h2>
+<br>
+<div class="container" style="width: 15%;">
+	<div class="form-group">	
+		<label>Book Name: </label>
+		<label><%= @book_info.book_name %></label>
+	</div>
+	<div class="form-group">	
+		<label>Author Name: </label>
+		<label><%= @book_info.author_name %></label>
+	</div>
+	<div class="form-group">	
+		<label>Edition: </label>
+		<label><%= @book_info.edition %></label>
+	</div>	
+	<div class="form-group">	
+		<label>Publication Name: </label>
+		<label><%= @book_info.publication_name %></label>
+	</div>
+	<div class="form-group">	
+		<label>Publication Year: </label>
+		<label><%= @book_info.publication_year %></label>
+	</div>
+	<div class="form-group">	
+		<label>Description: </label>
+		<label><%= @book_info.description %></label>
+	</div>
+	<br><br>
+	<div>
+		<% @book_pages_info.each do |page| %>
+			<label><%= page.page_type %></label>
+			<img src="<%= page.page_content %>">
+		<% end %>
+	</div>
+</div>

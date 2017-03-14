@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   post 'books/delete'
   post 'books/subscribe'
   post 'books/add'
+  get 'books/book_details'
   get 'books/activity_logs'
 
   get 'home/index'

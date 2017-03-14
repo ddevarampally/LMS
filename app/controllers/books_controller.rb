@@ -215,6 +215,13 @@ class BooksController < ApplicationController
       end
   end
 
+  def book_details
+      book_id = params[:book_id]
+      @book_info = Book.where(book_id: book_id).first
+
+      @book_pages_info = BookPage.where(book_id: book_id)
+  end
+
   def activity_logs
     	respond_to do |format|
   	    format.html

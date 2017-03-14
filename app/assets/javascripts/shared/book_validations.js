@@ -175,10 +175,11 @@ $(document).on('turbolinks:load',function(){
 		resetValidation(errorElement);
 		bookData = $(this).parents('tr');
 		var data = bookGrid.row(bookData).data();
+		var bookName = (data[1]).match(/<a [^>]+>([^<]+)<\/a>/)[1];
 
 		if(data != null){
 			bookId = data[0];
-			bookname.val(data[1]);
+			bookname.val(bookName);
 			description.val(data[3]);
 			author.val(data[9]);
 			edition.val(data[10]);

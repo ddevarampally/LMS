@@ -25,7 +25,7 @@ private
     book_details.map do |book_detail|
       [
         book_detail.book_id, 
-        book_detail.book_name,
+        format_book_name(book_detail.book_name, book_detail.book_id),
         format_book_picture(book_detail.book_id, @book_pictures),
         book_detail.description,
         format_book_status(book_detail),
@@ -92,6 +92,9 @@ private
 
   def sort_direction_book
     params[:sSortDir_0] == "desc" ? "desc" : "asc"
+  end
+  def format_book_name(book_name, book_id)
+    return "<a href='/books/book_details?book_id=#{book_id}'>#{book_name}</a>"
   end
 
   def format_borrowed_user_name(book)
